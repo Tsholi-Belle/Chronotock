@@ -1,7 +1,5 @@
 /**
- * ChronoTrack - macOS Active Application Background Poller
- * Polls active frontmost application and window title every 2 seconds
- * and sends activity logs to the local ChronoTrack timesheet store.
+ * ChronoTrack - Dedicated macOS Active Application Background Poller
  */
 
 import { exec } from 'child_process';
@@ -16,6 +14,11 @@ let sessionStartTime = Date.now();
 
 function getActiveWindow() {
   return new Promise((resolve) => {
+    if (process.platform !== 'darwin') {
+      resolve({ appName: 'Mock Browser', windowTitle: 'ChronoTrack Dashboard' });
+      return;
+    }
+
     const script = `
       try
         tell application "System Events"
@@ -65,7 +68,7 @@ function sendActivityLog(payload) {
   );
 
   req.on('error', () => {
-    // Server might be starting or offline
+    // Server offline or starting
   });
 
   req.write(data);
@@ -77,11 +80,10 @@ console.log('👀 Polling frontmost application window every 2s...');
 
 setInterval(async () => {
   const current = await getActiveWindow();
-  if (!current || !current.appName) return;
+  if (!current || !current.appName || current.appName === 'Unknown App') return;
 
   const now = Date.now();
 
-  // If app or window changed, emit the completed segment
   if (lastApp && (lastApp !== current.appName || lastTitle !== current.windowTitle)) {
     const durationSeconds = Math.round((now - sessionStartTime) / 1000);
     
