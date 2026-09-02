@@ -6,6 +6,8 @@ import { exec } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const ROOT_DIR = path.resolve(__dirname, '..');
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
 
 const PORT = process.env.PORT || 3150;
 const LOG_FILE = path.join(__dirname, 'server_logs.json');
@@ -81,7 +83,7 @@ function getMacOSActiveWindow() {
   });
 }
 
-// Background auto-tracker loop inside server
+// Background auto-tracker loop
 setInterval(async () => {
   if (!trackingActive) return;
   const current = await getMacOSActiveWindow();
@@ -134,7 +136,7 @@ function sendJson(res, statusCode, data) {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   });
-  res.end(JSON.stringify(data));
+  res.end(JSON.stringify(data, null, 2));
 }
 
 function parseJsonBody(req) {
@@ -153,8 +155,116 @@ function parseJsonBody(req) {
   });
 }
 
+// MIME Types for static assets
+const MIME_TYPES = {
+  '.html': 'text/html',
+  '.js': 'text/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.ico': 'image/x-icon',
+};
+
+// Fallback HTML page for status and quick start
+function getStatusHtml(logsCount, osInfo) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChronoTrack Backend Server</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #090d16;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    h1 { margin-top: 0; color: #38bdf8; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
+    .btn {
+      display: inline-block;
+      background: #0284c7;
+      color: white;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #0369a1; }
+    .endpoints {
+      margin-top: 24px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+    }
+    .endpoints a { color: #38bdf8; text-decoration: none; }
+    .endpoints a:hover { text-decoration: underline; }
+    .note { margin-top: 20px; font-size: 13px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1>⏱️ ChronoTrack Backend</h1>
+      <span class="status-badge"><span class="dot"></span> Online</span>
+    </div>
+    <p style="color: #cbd5e1; line-height: 1.5;">
+      The ChronoTrack background API and macOS active application tracking service is running successfully on port <strong>${PORT}</strong>.
+    </p>
+
+    <div style="margin: 20px 0;">
+      <a href="http://localhost:5173" class="btn">👉 Open ChronoTrack Web App (localhost:5173)</a>
+    </div>
+
+    <div class="endpoints">
+      <strong>Available REST API Endpoints:</strong><br><br>
+      • <a href="/api/status" target="_blank">GET /api/status</a> — Server health & frontmost window<br>
+      • <a href="/api/logs" target="_blank">GET /api/logs</a> — Tracked activity logs (${logsCount} records)<br>
+      • <span>POST /api/logs</span> — Ingest activity record<br>
+      • <span>POST /api/tracking/toggle</span> — Toggle tracking
+    </div>
+
+    <p class="note">
+      💡 <em>To view the full interactive timesheet UI with timeline, run <code>npm run dev</code> and visit <a href="http://localhost:5173" style="color: #38bdf8;">http://localhost:5173</a>.</em>
+    </p>
+  </div>
+</body>
+</html>`;
+}
+
 const server = http.createServer(async (req, res) => {
-  // Handle CORS Preflight
+  // CORS Preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
@@ -238,11 +348,53 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Default 404
-  sendJson(res, 404, { error: 'Endpoint not found' });
+  // Serve static dist files if they exist
+  let filePath = path.join(DIST_DIR, pathname === '/' ? 'index.html' : pathname);
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    const ext = path.extname(filePath).toLowerCase();
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Access-Control-Allow-Origin': '*',
+    });
+    fs.createReadStream(filePath).pipe(res);
+    return;
+  }
+
+  // If visiting / or /index.html and dist is not found, render status page
+  if (pathname === '/' || pathname === '/index.html') {
+    const osInfo = await getMacOSActiveWindow();
+    const logs = getSavedLogs();
+    res.writeHead(200, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
+    });
+    res.end(getStatusHtml(logs.length, osInfo));
+    return;
+  }
+
+  // Default 404 for unknown endpoints
+  sendJson(res, 404, {
+    error: 'Endpoint not found',
+    requestedPath: pathname,
+    availableEndpoints: ['/api/status', '/api/logs', '/api/tracking/toggle'],
+    dashboardUrl: 'http://localhost:5173'
+  });
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`⚠️ Port ${PORT} is already in use by another process.`);
+    console.error(`💡 If ChronoTrack server is already running, you can connect directly at http://localhost:${PORT}`);
+    console.error(`💡 To stop the existing server, run: lsof -ti :${PORT} | xargs kill -9`);
+    process.exit(1);
+  } else {
+    console.error('Server error:', err);
+  }
 });
 
 server.listen(PORT, () => {
-  console.log(`🚀 ChronoTrack Backend API running at http://localhost:${PORT}`);
-  console.log(`⚡ Native macOS Tracker Poller: Active (polling frontmost app)`);
+  console.log(`\n🚀 ChronoTrack Backend API running at http://localhost:${PORT}`);
+  console.log(`⚡ Native macOS Active Window Tracker: Active`);
+  console.log(`🌐 Web Dashboard: http://localhost:5173\n`);
 });
