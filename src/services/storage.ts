@@ -124,6 +124,20 @@ export const INITIAL_PROJECTS: Project[] = [
 
 export const INITIAL_TRACKED_APPS: TrackedApp[] = [
   {
+    id: 'app-antigravity',
+    name: 'Google Antigravity',
+    shortName: 'Antigravity',
+    bundleId: 'com.google.antigravity',
+    processNames: ['Antigravity', 'agy', 'antigravity-helper', 'Electron'],
+    category: 'development',
+    icon: 'Sparkles',
+    color: '#8B5CF6',
+    isEnabled: true,
+    defaultProjectId: 'proj-1',
+    defaultBillable: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
     id: 'app-vscode',
     name: 'Visual Studio Code',
     shortName: 'VS Code',
@@ -281,6 +295,19 @@ export const INITIAL_TRACKED_APPS: TrackedApp[] = [
 
 export const INITIAL_RULES: CategorizationRule[] = [
   {
+    id: 'rule-antigravity',
+    name: 'Antigravity AI Pair Programming',
+    isEnabled: true,
+    appId: 'app-antigravity',
+    matchField: 'windowTitle',
+    matchType: 'contains',
+    pattern: 'timesheet',
+    targetProjectId: 'proj-1',
+    targetClientId: 'client-1',
+    isBillable: true,
+    tag: 'AI Engineering',
+  },
+  {
     id: 'rule-1',
     name: 'ACME Payment Codebase',
     isEnabled: true,
@@ -407,9 +434,10 @@ export function generateSeedActivityLogs(): ActivityLog[] {
   // Today's logs
   logs.push(createLog('app-slack', 'Slack', '#general - Team announcements', 9, 0, 15, 'proj-admin', 'client-internal', false, 0, 'Morning standup updates'));
   logs.push(createLog('app-zoom', 'Zoom Workplace', 'Acme Weekly Standup (Sprint 14)', 9, 15, 30, 'proj-1', 'client-1', true, 0, 'Discussed payment failure edge cases with PM'));
-  logs.push(createLog('app-vscode', 'Visual Studio Code', 'checkout-form.tsx — acme-checkout', 9, 45, 75, 'proj-1', 'client-1', true, 0, 'Implemented Apple Pay & credit card tokenization'));
-  logs.push(createLog('app-chrome', 'Google Chrome', 'Stripe Documentation — Webhooks & Elements', 11, 0, 30, 'proj-1', 'client-1', true, 0, 'Stripe Elements SDK setup'));
-  logs.push(createLog('app-terminal', 'Terminal', 'zsh — ~/work/acme-checkout (git push)', 11, 30, 20, 'proj-1', 'client-1', true, 0, 'Unit tests & CI deployment verification'));
+  logs.push(createLog('app-antigravity', 'Google Antigravity', 'ChronoTrack Timesheet App — Pair Programming', 9, 45, 60, 'proj-1', 'client-1', true, 0, 'AI-driven timesheet consolidation engine development'));
+  logs.push(createLog('app-vscode', 'Visual Studio Code', 'checkout-form.tsx — acme-checkout', 10, 45, 45, 'proj-1', 'client-1', true, 0, 'Implemented Apple Pay & credit card tokenization'));
+  logs.push(createLog('app-chrome', 'Google Chrome', 'Stripe Documentation — Webhooks & Elements', 11, 30, 30, 'proj-1', 'client-1', true, 0, 'Stripe Elements SDK setup'));
+  logs.push(createLog('app-terminal', 'Terminal', 'zsh — ~/work/acme-checkout (git push)', 12, 0, 15, 'proj-1', 'client-1', true, 0, 'Unit tests & CI deployment verification'));
   
   // Lunch break gap
   
@@ -421,7 +449,8 @@ export function generateSeedActivityLogs(): ActivityLog[] {
 
   // Yesterday's logs
   logs.push(createLog('app-notion', 'Notion', 'Sprint Planning & Architecture Spec', 9, 15, 45, 'proj-admin', 'client-internal', false, 1, 'Drafted milestone deliverables'));
-  logs.push(createLog('app-vscode', 'Visual Studio Code', 'server.go — techflow-api', 10, 0, 110, 'proj-2', 'client-2', true, 1, 'Auth middleware & JWT refresh token handler'));
+  logs.push(createLog('app-antigravity', 'Google Antigravity', 'Agent Workflow & Background Task Runner', 10, 0, 90, 'proj-2', 'client-2', true, 1, 'Implemented background task watcher in Go'));
+  logs.push(createLog('app-vscode', 'Visual Studio Code', 'server.go — techflow-api', 11, 30, 60, 'proj-2', 'client-2', true, 1, 'Auth middleware & JWT refresh token handler'));
   logs.push(createLog('app-figma', 'Figma', 'Nexus Mobile Layouts', 13, 0, 90, 'proj-3', 'client-3', true, 1, 'Mobile breakpoint variants'));
   logs.push(createLog('app-vscode', 'Visual Studio Code', 'acme-checkout — PaymentGateway.ts', 14, 45, 120, 'proj-1', 'client-1', true, 1, 'Multi-currency checkout support'));
 
@@ -436,7 +465,18 @@ export class StorageService {
       return INITIAL_TRACKED_APPS;
     }
     try {
-      return JSON.parse(data);
+      const parsed: TrackedApp[] = JSON.parse(data);
+      let updated = false;
+      for (const initApp of INITIAL_TRACKED_APPS) {
+        if (!parsed.some((a) => a.id === initApp.id)) {
+          parsed.unshift(initApp);
+          updated = true;
+        }
+      }
+      if (updated) {
+        this.saveApps(parsed);
+      }
+      return parsed;
     } catch {
       return INITIAL_TRACKED_APPS;
     }

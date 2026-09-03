@@ -73,6 +73,12 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
     if (isSimulating && isTracking) {
       const activeApps = apps.filter((a) => a.isEnabled);
       const mockTitles: Record<string, string[]> = {
+        'app-antigravity': [
+          'Antigravity — AI Pair Programming & Timesheet Feature',
+          'Antigravity Agent — Multi-App Work Consolidation Plan',
+          'Antigravity 2.0 — Backend Tracker Integration',
+          'agy goal — automated task workflow',
+        ],
         'app-vscode': [
           'CheckoutForm.tsx — acme-checkout',
           'PaymentService.ts — stripe-integration',
