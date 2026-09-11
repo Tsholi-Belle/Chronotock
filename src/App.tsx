@@ -7,10 +7,12 @@ import {
   ActivityLog, 
   TimesheetEntry, 
   CategorizationRule, 
-  TimesheetSettings 
+  TimesheetSettings,
+  ThemeMode
 } from './types';
 import { StorageService, formatDateKey, generateSeedActivityLogs } from './services/storage';
 import { ConsolidationEngine } from './services/consolidation';
+import { applyTheme } from './utils/theme';
 import { Navbar } from './components/Navbar';
 import { LiveTrackerBar } from './components/LiveTrackerBar';
 import { TimesheetView } from './components/TimesheetView';
@@ -21,6 +23,7 @@ import { AnalyticsView } from './components/AnalyticsView';
 import { ManualEntryModal } from './components/ManualEntryModal';
 import { ExportModal } from './components/ExportModal';
 import { SettingsModal } from './components/SettingsModal';
+import { GitHubSyncModal } from './components/GitHubSyncModal';
 
 export const App: React.FC = () => {
   // App State
@@ -35,6 +38,18 @@ export const App: React.FC = () => {
   const [logs, setLogs] = useState<ActivityLog[]>(() => StorageService.getActivityLogs());
   const [manualEntries, setManualEntries] = useState<TimesheetEntry[]>(() => StorageService.getTimesheets());
 
+  // Apply Theme on load & setting change
+  useEffect(() => {
+    applyTheme(settings.theme || 'dark');
+  }, [settings.theme]);
+
+  const handleToggleTheme = useCallback(() => {
+    setSettings((prev) => {
+      const nextTheme: ThemeMode = prev.theme === 'dark' ? 'light' : prev.theme === 'light' ? 'system' : 'dark';
+      return { ...prev, theme: nextTheme };
+    });
+  }, []);
+
   // Live Tracking State
   const [isTracking, setIsTracking] = useState<boolean>(true);
   const [activeAppId, setActiveAppId] = useState<string>(apps[0]?.id || 'app-vscode');
@@ -46,6 +61,7 @@ export const App: React.FC = () => {
   // Modals
   const [showManualModal, setShowManualModal] = useState<boolean>(false);
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
+  const [showGitHubModal, setShowGitHubModal] = useState<boolean>(false);
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
   const [editingEntry, setEditingEntry] = useState<TimesheetEntry | null>(null);
 
@@ -247,8 +263,33 @@ export const App: React.FC = () => {
     setLogs([...logs]);
   };
 
+  const handleImportGitHubEntries = (newEntries: TimesheetEntry[]) => {
+    setManualEntries((prev) => [...prev, ...newEntries]);
+    
+    // Also create corresponding ActivityLogs so timeline reflects GitHub work
+    const newLogs: ActivityLog[] = newEntries.map((e) => {
+      const start = new Date(`${e.date}T${e.startTime}:00`);
+      const end = new Date(`${e.date}T${e.endTime}:00`);
+      return {
+        id: `log-${e.id}`,
+        appId: 'app-github',
+        appName: 'GitHub',
+        windowTitle: e.description,
+        startTime: start.toISOString(),
+        endTime: end.toISOString(),
+        durationSeconds: e.roundedMinutes * 60,
+        projectId: e.projectId,
+        clientId: e.clientId,
+        isBillable: e.isBillable,
+        manualNote: e.details?.[0] || 'GitHub Activity',
+        date: e.date,
+      };
+    });
+    setLogs((prev) => [...prev, ...newLogs]);
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col selection:bg-brand-500/30 selection:text-brand-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col selection:bg-brand-500/30 selection:text-brand-700 dark:selection:text-brand-200 transition-colors duration-200">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -261,7 +302,9 @@ export const App: React.FC = () => {
           setShowManualModal(true);
         }}
         onOpenExport={() => setShowExportModal(true)}
+        onOpenGitHubSync={() => setShowGitHubModal(true)}
         onOpenSettings={() => setShowSettingsModal(true)}
+        onToggleTheme={handleToggleTheme}
         settings={settings}
         daemonConnected={daemonConnected}
       />
@@ -373,6 +416,15 @@ export const App: React.FC = () => {
         entries={consolidatedEntries}
         settings={settings}
         selectedDate={selectedDate}
+      />
+
+      <GitHubSyncModal
+        isOpen={showGitHubModal}
+        onClose={() => setShowGitHubModal(false)}
+        projects={projects}
+        clients={clients}
+        selectedDate={selectedDate}
+        onImportEntries={handleImportGitHubEntries}
       />
 
       <SettingsModal

@@ -103,7 +103,10 @@ export interface CategorizationRule {
 export type RoundingIncrement = 0 | 5 | 15 | 30 | 60; // 0 = exact (no rounding)
 export type RoundingMethod = 'nearest' | 'ceil' | 'floor';
 
+export type ThemeMode = 'light' | 'dark' | 'system';
+
 export interface TimesheetSettings {
+  theme: ThemeMode;
   roundingIncrement: RoundingIncrement;
   roundingMethod: RoundingMethod;
   minimumSessionSeconds: number; // e.g. 10s
@@ -119,6 +122,30 @@ export interface TimesheetSettings {
   userRole: string;
 }
 
+export interface GitHubIntegrationSettings {
+  username: string;
+  defaultRepo: string;
+  personalAccessToken?: string;
+  autoSync: boolean;
+  syncIntervalMinutes: number;
+  lastSyncedAt?: string;
+}
+
+export interface GitHubActivityItem {
+  id: string;
+  type: 'pull_request' | 'push' | 'commit';
+  repo: string;
+  title: string;
+  message: string;
+  url: string;
+  timestamp: string; // ISO string
+  author: string;
+  branch?: string;
+  prNumber?: number;
+  status?: 'open' | 'closed' | 'merged' | 'pushed';
+  estimatedDurationMinutes: number;
+}
+
 export type ActiveTab = 'timesheet' | 'timeline' | 'apps' | 'rules' | 'analytics' | 'settings';
 
 export interface DailySummary {
@@ -130,3 +157,4 @@ export interface DailySummary {
   appBreakdown: { appId: string; appName: string; color: string; durationMinutes: number }[];
   projectBreakdown: { projectId: string; projectName: string; color: string; durationMinutes: number; amount: number }[];
 }
+

@@ -305,13 +305,13 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Search Input */}
           <div className="relative flex-1 min-w-[240px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search tasks, window titles, apps, or projects..."
-              className="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
             />
           </div>
 
@@ -320,7 +320,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
             <select
               value={selectedProjectId}
               onChange={(e) => setSelectedProjectId(e.target.value)}
-              className="appearance-none bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-xs font-medium text-slate-300 hover:text-white cursor-pointer focus:ring-1 focus:ring-brand-500 focus:outline-none"
+              className="appearance-none bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl pl-3 pr-8 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer focus:ring-1 focus:ring-brand-500 focus:outline-none"
             >
               <option value="all">All Projects ({projects.length})</option>
               {projects.map((p) => (
@@ -329,17 +329,17 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 pointer-events-none" />
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 dark:text-slate-500 pointer-events-none" />
           </div>
 
           {/* Billable Filter */}
-          <div className="flex bg-slate-950 border border-slate-800 rounded-xl p-0.5 text-xs">
+          <div className="flex bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-0.5 text-xs">
             <button
               onClick={() => setBillableFilter('all')}
               className={`px-3 py-1.5 rounded-lg font-medium transition ${
                 billableFilter === 'all'
-                  ? 'bg-slate-800 text-white'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               All
@@ -348,8 +348,8 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
               onClick={() => setBillableFilter('billable')}
               className={`px-3 py-1.5 rounded-lg font-medium transition ${
                 billableFilter === 'billable'
-                  ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/30'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               Billable
@@ -358,8 +358,8 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
               onClick={() => setBillableFilter('non-billable')}
               className={`px-3 py-1.5 rounded-lg font-medium transition ${
                 billableFilter === 'non-billable'
-                  ? 'bg-slate-800 text-white'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               Non-Billable
@@ -371,23 +371,23 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
             <select
               value={groupBy}
               onChange={(e) => setGroupBy(e.target.value as any)}
-              className="appearance-none bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-xs font-medium text-slate-300 hover:text-white cursor-pointer focus:ring-1 focus:ring-brand-500 focus:outline-none"
+              className="appearance-none bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl pl-3 pr-8 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer focus:ring-1 focus:ring-brand-500 focus:outline-none"
             >
               <option value="none">Group: Chronological</option>
               <option value="project">Group: By Project</option>
               <option value="client">Group: By Client</option>
               <option value="app">Group: By App</option>
             </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 pointer-events-none" />
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 dark:text-slate-500 pointer-events-none" />
           </div>
         </div>
 
         {/* Rounding & Fast Timesheet Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800/80 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-200 dark:border-slate-800/80 text-xs">
           {/* Duration Rounding Selector */}
           <div className="flex items-center gap-2">
-            <span className="text-slate-400 font-medium">Timesheet Rounding:</span>
-            <div className="flex items-center bg-slate-950 border border-slate-800 rounded-lg p-0.5">
+            <span className="text-slate-500 dark:text-slate-400 font-medium">Timesheet Rounding:</span>
+            <div className="flex items-center bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg p-0.5">
               {([0, 5, 15, 30, 60] as RoundingIncrement[]).map((inc) => (
                 <button
                   key={inc}
@@ -395,14 +395,14 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                   className={`px-2.5 py-1 rounded text-xs font-medium transition ${
                     settings.roundingIncrement === inc
                       ? 'bg-brand-600 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   {inc === 0 ? 'Exact' : `${inc}m`}
                 </button>
               ))}
             </div>
-            <span className="text-[11px] text-slate-500 hidden md:inline">
+            <span className="text-[11px] text-slate-400 dark:text-slate-500 hidden md:inline">
               (Standard corporate billing is 15m)
             </span>
           </div>
@@ -412,9 +412,9 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
             <button
               onClick={onRefreshConsolidation}
               title="Re-run smart consolidation algorithm"
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-medium transition"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium transition"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
+              <RefreshCw className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
               <span>Re-consolidate</span>
             </button>
 
@@ -422,8 +422,8 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
               onClick={handleCopyAllForTimesheet}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition ${
                 copiedAll
-                  ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/50'
-                  : 'bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 border-brand-500/30'
+                  ? 'bg-emerald-600/30 text-emerald-700 dark:text-emerald-300 border-emerald-500/50'
+                  : 'bg-brand-600/20 hover:bg-brand-600/30 text-brand-700 dark:text-brand-300 border-brand-500/30'
               }`}
             >
               {copiedAll ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -436,10 +436,10 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
       {/* 3. Consolidated Timesheet Table */}
       <div className="space-y-6">
         {groupedSections.map((section, idx) => (
-          <div key={idx} className="glass-panel rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+          <div key={idx} className="glass-panel rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800">
             {/* Section Header if grouped */}
             {groupBy !== 'none' && (
-              <div className="bg-slate-900/80 px-5 py-3 border-b border-slate-800 flex items-center justify-between">
+              <div className="bg-slate-100/90 dark:bg-slate-900/80 px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <span
                     className="w-3 h-3 rounded-full"

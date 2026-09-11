@@ -12,7 +12,11 @@ import {
   ChevronLeft, 
   ChevronRight,
   Radio,
-  CheckCircle2
+  CheckCircle2,
+  FolderGit2,
+  Sun,
+  Moon,
+  Laptop
 } from 'lucide-react';
 import { ActiveTab, TimesheetSettings } from '../types';
 
@@ -24,7 +28,9 @@ interface NavbarProps {
   isTracking: boolean;
   onOpenManualEntry: () => void;
   onOpenExport: () => void;
+  onOpenGitHubSync: () => void;
   onOpenSettings: () => void;
+  onToggleTheme: () => void;
   settings: TimesheetSettings;
   daemonConnected: boolean;
 }
@@ -37,7 +43,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   isTracking,
   onOpenManualEntry,
   onOpenExport,
+  onOpenGitHubSync,
   onOpenSettings,
+  onToggleTheme,
   settings,
   daemonConnected,
 }) => {
@@ -74,8 +82,20 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'analytics', label: 'Analytics', icon: <BarChart3 className="w-4 h-4" /> },
   ];
 
+  const getThemeIcon = () => {
+    if (settings.theme === 'light') return <Sun className="w-4 h-4 text-amber-500" />;
+    if (settings.theme === 'dark') return <Moon className="w-4 h-4 text-brand-400" />;
+    return <Laptop className="w-4 h-4 text-slate-400" />;
+  };
+
+  const getThemeTitle = () => {
+    if (settings.theme === 'light') return 'Light Theme (Click to toggle)';
+    if (settings.theme === 'dark') return 'Dark Theme (Click to toggle)';
+    return 'System Theme (Click to toggle)';
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
@@ -85,25 +105,25 @@ export const Navbar: React.FC<NavbarProps> = ({
               {isTracking && (
                 <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-900"></span>
+                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white dark:border-slate-900"></span>
                 </span>
               )}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                <span className="font-bold text-lg tracking-tight text-slate-900 dark:text-white">
                   ChronoTrack
                 </span>
-                <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
                   Timesheet AI
                 </span>
               </div>
-              <p className="text-xs text-slate-400">Multi-App Work Consolidator</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Multi-App Work Consolidator</p>
             </div>
           </div>
 
           {/* Center Navigation Tabs */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800/80">
+          <nav className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-950/60 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800/80">
             {navItems.map((item) => {
               const active = activeTab === item.id;
               return (
@@ -113,7 +133,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
                     active
                       ? 'bg-brand-600 text-white shadow-md shadow-brand-600/30'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
                   }`}
                 >
                   {item.icon}
@@ -126,21 +146,21 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Right Actions & Date Navigator */}
           <div className="flex items-center gap-3">
             {/* Date Picker Switcher */}
-            <div className="flex items-center bg-slate-950/80 border border-slate-800 rounded-lg p-1 text-xs">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-lg p-1 text-xs">
               <button
                 onClick={handlePrevDay}
                 title="Previous Day"
-                className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition"
+                className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <div className="flex items-center gap-1 px-2">
-                <Calendar className="w-3.5 h-3.5 text-brand-400" />
-                <span className="font-medium text-slate-200">{formattedDate}</span>
+                <Calendar className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
+                <span className="font-medium text-slate-800 dark:text-slate-200">{formattedDate}</span>
                 {!isToday && (
                   <button
                     onClick={handleToday}
-                    className="ml-1 text-[10px] text-brand-400 hover:underline font-medium"
+                    className="ml-1 text-[10px] text-brand-600 dark:text-brand-400 hover:underline font-medium"
                   >
                     (Today)
                   </button>
@@ -149,7 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={handleNextDay}
                 title="Next Day"
-                className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition"
+                className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -158,10 +178,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Manual Entry Button */}
             <button
               onClick={onOpenManualEntry}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium border border-slate-200 dark:border-slate-700 transition"
             >
-              <Plus className="w-3.5 h-3.5 text-brand-400" />
+              <Plus className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
               <span>Log Time</span>
+            </button>
+
+            {/* GitHub Sync Button */}
+            <button
+              onClick={onOpenGitHubSync}
+              title="Pull GitHub Pull Requests & Commits"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-slate-900 hover:bg-purple-100 dark:hover:bg-slate-800 text-purple-700 dark:text-purple-300 text-xs font-semibold border border-purple-300 dark:border-purple-500/30 shadow-sm transition"
+            >
+              <FolderGit2 className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+              <span>GitHub Sync</span>
             </button>
 
             {/* Export Timesheet Button */}
@@ -173,11 +203,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Export</span>
             </button>
 
+            {/* Quick Theme Toggle Button */}
+            <button
+              onClick={onToggleTheme}
+              title={getThemeTitle()}
+              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+            >
+              {getThemeIcon()}
+            </button>
+
             {/* Settings */}
             <button
               onClick={onOpenSettings}
-              title="Settings & Integrations"
-              className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 transition border border-transparent hover:border-slate-700"
+              title="Settings & Preferences"
+              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
             >
               <Settings className="w-4 h-4" />
             </button>
@@ -187,3 +226,4 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
+

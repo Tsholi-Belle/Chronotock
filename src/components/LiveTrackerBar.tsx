@@ -163,7 +163,7 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
   const hoursToday = (todayDurationMinutes / 60).toFixed(1);
 
   return (
-    <div className="bg-slate-900/95 border-b border-slate-800 shadow-xl shadow-black/20 px-4 sm:px-6 lg:px-8 py-3">
+    <div className="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 shadow-xl shadow-black/5 dark:shadow-black/20 px-4 sm:px-6 lg:px-8 py-3 transition-colors">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
         {/* Left: Active App & Window Title Input */}
         <div className="flex items-center gap-3 flex-1 min-w-[280px]">
@@ -172,7 +172,7 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
             <select
               value={activeAppId}
               onChange={(e) => setActiveAppId(e.target.value)}
-              className="appearance-none bg-slate-950 hover:bg-slate-800/80 border border-slate-700/80 rounded-xl pl-8 pr-8 py-2 text-xs font-semibold text-slate-200 cursor-pointer focus:ring-2 focus:ring-brand-500 focus:outline-none transition"
+              className="appearance-none bg-slate-100 dark:bg-slate-950 hover:bg-slate-200 dark:hover:bg-slate-800/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-8 pr-8 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 cursor-pointer focus:ring-2 focus:ring-brand-500 focus:outline-none transition"
             >
               {apps
                 .filter((a) => a.isEnabled)
@@ -196,10 +196,10 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
               value={currentTaskTitle}
               onChange={(e) => setCurrentTaskTitle(e.target.value)}
               placeholder="What are you working on? (or auto-detected from active window)"
-              className="w-full bg-slate-950/80 border border-slate-800 focus:border-brand-500 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500 transition"
+              className="w-full bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 focus:border-brand-500 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500 transition"
             />
             {currentTaskTitle && (
-              <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-mono">
+              <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 dark:text-slate-500 font-mono">
                 Auto-tagged
               </span>
             )}
@@ -213,7 +213,7 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
             <select
               value={selectedProjectId}
               onChange={(e) => setSelectedProjectId(e.target.value)}
-              className="appearance-none bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-7 py-2 text-xs font-medium text-slate-300 hover:text-white cursor-pointer focus:ring-2 focus:ring-brand-500 focus:outline-none transition"
+              className="appearance-none bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl pl-3 pr-7 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer focus:ring-2 focus:ring-brand-500 focus:outline-none transition"
             >
               {projects.map((proj) => {
                 const client = clients.find((c) => c.id === proj.clientId);
@@ -224,7 +224,7 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
                 );
               })}
             </select>
-            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 pointer-events-none" />
+            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 dark:text-slate-500 pointer-events-none" />
           </div>
 
           {/* Billable Toggle */}
@@ -233,8 +233,8 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
             title={isBillable ? 'Billable Work ($)' : 'Non-Billable Work'}
             className={`flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold border transition ${
               isBillable
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
-                : 'bg-slate-800/40 text-slate-400 border-slate-700 hover:text-slate-200'
+                ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
+                : 'bg-slate-100 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <DollarSign className="w-3.5 h-3.5" />
@@ -245,13 +245,13 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
         {/* Right: Stopwatch Timer & Action Buttons */}
         <div className="flex items-center gap-3">
           {/* Live Timer Display */}
-          <div className="flex items-center gap-2 bg-slate-950 border border-slate-800/80 px-3.5 py-1.5 rounded-xl">
+          <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800/80 px-3.5 py-1.5 rounded-xl">
             <span
               className={`w-2.5 h-2.5 rounded-full ${
                 isTracking ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
               }`}
             />
-            <span className="font-mono text-base font-bold text-white tracking-wider">
+            <span className="font-mono text-base font-bold text-slate-900 dark:text-white tracking-wider">
               {formatTimer(elapsedSeconds)}
             </span>
           </div>
@@ -261,7 +261,7 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
             onClick={handleToggleTracking}
             className={`flex items-center justify-center w-9 h-9 rounded-xl font-bold shadow-lg transition ${
               isTracking
-                ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30'
+                ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-700 dark:text-amber-300 border border-amber-500/30'
                 : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/40'
             }`}
             title={isTracking ? 'Pause Tracking' : 'Start Tracking'}
@@ -287,17 +287,17 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
             title={isSimulating ? 'Stop App Switch Simulator' : 'Simulate Multi-App Activity (Demo)'}
             className={`p-2 rounded-xl border text-xs font-medium transition ${
               isSimulating
-                ? 'bg-purple-500/20 text-purple-300 border-purple-500/40 animate-pulse'
-                : 'bg-slate-950 text-slate-400 hover:text-slate-200 border-slate-800 hover:bg-slate-800'
+                ? 'bg-purple-500/20 text-purple-700 dark:text-purple-300 border-purple-500/40 animate-pulse'
+                : 'bg-slate-100 dark:bg-slate-950 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border-slate-300 dark:border-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             <ArrowRightLeft className="w-3.5 h-3.5" />
           </button>
 
           {/* Today's Total Pill */}
-          <div className="hidden lg:flex flex-col items-end pl-2 border-l border-slate-800 text-right">
-            <span className="text-[10px] uppercase font-bold text-slate-500">Today Total</span>
-            <span className="text-xs font-bold text-slate-200 font-mono">{hoursToday} hrs</span>
+          <div className="hidden lg:flex flex-col items-end pl-2 border-l border-slate-200 dark:border-slate-800 text-right">
+            <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">Today Total</span>
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-mono">{hoursToday} hrs</span>
           </div>
         </div>
       </div>

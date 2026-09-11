@@ -299,6 +299,31 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // GET /api/git/commits
+  if (req.method === 'GET' && pathname === '/api/git/commits') {
+    exec('git log -n 15 --pretty=format:"%h|||%an|||%ad|||%s" --date=iso', { cwd: ROOT_DIR }, (err, stdout) => {
+      if (err || !stdout) {
+        sendJson(res, 200, []);
+        return;
+      }
+      const commits = stdout.trim().split('\n').filter(Boolean).map(line => {
+        const [hash, author, date, message] = line.split('|||');
+        return {
+          id: `git-${hash}`,
+          type: 'commit',
+          hash,
+          author,
+          date,
+          message,
+          title: `Commit ${hash}: ${message}`,
+          estimatedDurationMinutes: 45
+        };
+      });
+      sendJson(res, 200, commits);
+    });
+    return;
+  }
+
   // POST /api/logs
   if (req.method === 'POST' && pathname === '/api/logs') {
     const newLog = await parseJsonBody(req);

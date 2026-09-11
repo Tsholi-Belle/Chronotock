@@ -147,13 +147,13 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
 
         {/* Search Input */}
         <div className="relative min-w-[220px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search applications..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
           />
         </div>
       </div>
@@ -168,8 +168,8 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
               key={app.id}
               className={`glass-panel p-4 rounded-2xl border transition relative flex flex-col justify-between ${
                 app.isEnabled
-                  ? 'border-slate-800 hover:border-slate-700 bg-slate-900/70'
-                  : 'border-slate-900/60 opacity-60 bg-slate-950/40'
+                  ? 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white/70 dark:bg-slate-900/70'
+                  : 'border-slate-200/60 dark:border-slate-900/60 opacity-60 bg-slate-100/40 dark:bg-slate-950/40'
               }`}
             >
               <div className="space-y-3">
@@ -255,9 +255,9 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
       {/* Add Custom App Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale-in">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale-in text-slate-800 dark:text-slate-100">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-bold text-white">Add Custom App to Track</h3>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">Add Custom App to Track</h3>
               <button
                 onClick={() => setShowAddModal(false)}
                 className="text-slate-400 hover:text-white text-sm"

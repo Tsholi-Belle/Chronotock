@@ -19,6 +19,7 @@ const STORAGE_KEYS = {
 };
 
 export const DEFAULT_SETTINGS: TimesheetSettings = {
+  theme: 'dark',
   roundingIncrement: 15,
   roundingMethod: 'nearest',
   minimumSessionSeconds: 15,
@@ -132,6 +133,20 @@ export const INITIAL_TRACKED_APPS: TrackedApp[] = [
     category: 'development',
     icon: 'Sparkles',
     color: '#8B5CF6',
+    isEnabled: true,
+    defaultProjectId: 'proj-1',
+    defaultBillable: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'app-github',
+    name: 'GitHub (PRs & Commits)',
+    shortName: 'GitHub',
+    bundleId: 'com.github.GitHubClient',
+    processNames: ['GitHub Desktop', 'GitHub', 'git'],
+    category: 'development',
+    icon: 'GitPullRequest',
+    color: '#24292e',
     isEnabled: true,
     defaultProjectId: 'proj-1',
     defaultBillable: true,

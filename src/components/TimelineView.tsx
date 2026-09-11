@@ -97,18 +97,18 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
             <Layers className="w-5 h-5 text-brand-400" />
             Visual Day Timeline
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Continuous activity timeline showing app switches and focused work blocks.
           </p>
         </div>
 
         {/* Filter by App */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 font-medium">Filter App:</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Filter App:</span>
           <select
             value={selectedAppFilter}
             onChange={(e) => setSelectedAppFilter(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-500"
           >
             <option value="all">All Tracked Apps</option>
             {apps
@@ -125,10 +125,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       {/* 24-Hour Visual Timeline Bar */}
       <div className="glass-panel p-6 rounded-2xl space-y-6">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Workday Progress ({START_HOUR}:00 — {END_HOUR}:00)
           </span>
-          <span className="text-xs font-mono text-slate-400">
+          <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
             Total Active: {ExporterService.formatDuration(dayLogs.reduce((a, b) => a + Math.round(b.durationSeconds / 60), 0))}
           </span>
         </div>
@@ -136,7 +136,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
         {/* Timeline Axis and Track Container */}
         <div className="relative pt-6 pb-2">
           {/* Hour markers & vertical grid lines */}
-          <div className="relative h-6 flex justify-between text-[11px] font-mono text-slate-500 border-b border-slate-800 pb-2">
+          <div className="relative h-6 flex justify-between text-[11px] font-mono text-slate-400 dark:text-slate-500 border-b border-slate-200 dark:border-slate-800 pb-2">
             {hoursArray.map((hour) => (
               <div key={hour} className="flex flex-col items-center">
                 <span>{String(hour).padStart(2, '0')}:00</span>
@@ -145,7 +145,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </div>
 
           {/* Activity Bar Track */}
-          <div className="relative h-16 bg-slate-950/90 rounded-xl mt-4 border border-slate-800/80 overflow-hidden shadow-inner flex items-center">
+          <div className="relative h-16 bg-slate-100/90 dark:bg-slate-950/90 rounded-xl mt-4 border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-inner flex items-center">
             {/* Hour Guide Lines */}
             {hoursArray.map((hour, idx) => {
               if (idx === 0 || idx === hoursArray.length - 1) return null;
@@ -153,7 +153,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               return (
                 <div
                   key={hour}
-                  className="absolute top-0 bottom-0 border-r border-slate-800/60 pointer-events-none"
+                  className="absolute top-0 bottom-0 border-r border-slate-300/60 dark:border-slate-800/60 pointer-events-none"
                   style={{ left }}
                 />
               );
