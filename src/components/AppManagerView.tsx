@@ -108,11 +108,11 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
       {/* Top Banner & Actions */}
       <div className="flex flex-wrap items-center justify-between gap-4 glass-panel p-5 rounded-2xl">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <Grid className="w-5 h-5 text-brand-400" />
+          <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Grid className="w-5 h-5 text-brand-600 dark:text-brand-400" />
             Tracked Applications Catalog
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Configure which applications ChronoTrack monitors. Enable, disable, or map apps to default projects.
           </p>
         </div>
@@ -137,7 +137,7 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
               className={`px-3 py-1.5 rounded-xl text-xs font-medium transition ${
                 selectedCategory === cat.id
                   ? 'bg-brand-600 text-white shadow-sm'
-                  : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  : 'bg-slate-100 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800'
               }`}
             >
               {cat.label}
@@ -183,8 +183,8 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
                       {app.shortName.slice(0, 2).toUpperCase()}
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-slate-100">{app.name}</h3>
-                      <span className="text-[11px] text-slate-400 uppercase font-semibold">
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">{app.name}</h3>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold">
                         {app.category}
                       </span>
                     </div>
@@ -194,14 +194,14 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
                   <button
                     onClick={() => onToggleApp(app.id)}
                     title={app.isEnabled ? 'Disable Tracking' : 'Enable Tracking'}
-                    className="p-1 rounded-lg hover:bg-slate-800 transition"
+                    className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
                   >
                     {app.isEnabled ? (
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1">
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1">
                         <Check className="w-3 h-3" /> Tracked
                       </span>
                     ) : (
-                      <span className="text-xs font-medium text-slate-500 bg-slate-800/40 px-2.5 py-1 rounded-full border border-slate-700">
+                      <span className="text-xs font-medium text-slate-500 bg-slate-200 dark:bg-slate-800/40 px-2.5 py-1 rounded-full border border-slate-300 dark:border-slate-700">
                         Disabled
                       </span>
                     )}
@@ -209,28 +209,28 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
                 </div>
 
                 {/* Details / Default Project Mapping */}
-                <div className="space-y-1.5 pt-2 border-t border-slate-800/60 text-xs">
-                  <div className="flex items-center justify-between text-slate-400">
+                <div className="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800/60 text-xs">
+                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                     <span>Default Project:</span>
-                    <span className="font-medium text-slate-200">
+                    <span className="font-medium text-slate-800 dark:text-slate-200">
                       {defaultProj ? defaultProj.name : 'Auto / Unassigned'}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between text-slate-400">
+                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                     <span>Billing Status:</span>
                     <span
                       className={`font-semibold ${
-                        app.defaultBillable ? 'text-emerald-400' : 'text-slate-400'
+                        app.defaultBillable ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'
                       }`}
                     >
                       {app.defaultBillable ? 'Billable ($)' : 'Non-Billable'}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between text-slate-400">
+                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400">
                     <span>Process Matches:</span>
-                    <span className="font-mono text-[10px] text-slate-500 truncate max-w-[150px]">
+                    <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[150px]">
                       {app.processNames.join(', ')}
                     </span>
                   </div>
@@ -238,11 +238,11 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
               </div>
 
               {/* Bottom Actions */}
-              <div className="flex items-center justify-end gap-2 pt-3 mt-3 border-t border-slate-800/40">
+              <div className="flex items-center justify-end gap-2 pt-3 mt-3 border-t border-slate-200 dark:border-slate-800/40">
                 <button
                   onClick={() => onDeleteApp(app.id)}
                   title="Remove App"
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition text-xs"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 transition text-xs"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -254,13 +254,13 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
 
       {/* Add Custom App Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale-in text-slate-800 dark:text-slate-100">
             <div className="flex items-center justify-between">
               <h3 className="text-base font-bold text-slate-900 dark:text-white">Add Custom App to Track</h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-slate-400 hover:text-white text-sm"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-sm"
               >
                 ✕
               </button>
@@ -268,46 +268,46 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
 
             <form onSubmit={handleCreateApp} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Application Name *</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Application Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Postman, Blender, Obsidian"
                   value={newAppName}
                   onChange={(e) => setNewAppName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Short Name</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Short Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Postman"
                   value={newAppShortName}
                   onChange={(e) => setNewAppShortName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Process / Executable Names</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Process / Executable Names</label>
                 <input
                   type="text"
                   placeholder="e.g. Postman, Postman Helper (comma separated)"
                   value={newAppProcess}
                   onChange={(e) => setNewAppProcess(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Category</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Category</label>
                   <select
                     value={newAppCategory}
                     onChange={(e) => setNewAppCategory(e.target.value as AppCategory)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                    className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-500"
                   >
                     <option value="development">Development</option>
                     <option value="browsing">Browsing</option>
@@ -321,22 +321,22 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Accent Color</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Accent Color</label>
                   <input
                     type="color"
                     value={newAppColor}
                     onChange={(e) => setNewAppColor(e.target.value)}
-                    className="w-full h-9 bg-slate-950 border border-slate-800 rounded-xl p-1 cursor-pointer"
+                    className="w-full h-9 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-1 cursor-pointer"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Default Project</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Default Project</label>
                 <select
                   value={newAppProjectId}
                   onChange={(e) => setNewAppProjectId(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-500"
                 >
                   {projects.map((p) => (
                     <option key={p.id} value={p.id}>
@@ -352,18 +352,18 @@ export const AppManagerView: React.FC<AppManagerViewProps> = ({
                   id="newBillable"
                   checked={newAppBillable}
                   onChange={(e) => setNewAppBillable(e.target.checked)}
-                  className="rounded border-slate-800 text-brand-500 focus:ring-brand-500"
+                  className="rounded border-slate-300 dark:border-slate-800 text-brand-600 focus:ring-brand-500"
                 />
-                <label htmlFor="newBillable" className="text-slate-300 font-medium cursor-pointer">
+                <label htmlFor="newBillable" className="text-slate-700 dark:text-slate-300 font-medium cursor-pointer">
                   Default as Billable Work
                 </label>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition"
+                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
                 >
                   Cancel
                 </button>

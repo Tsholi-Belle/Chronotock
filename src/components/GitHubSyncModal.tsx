@@ -141,39 +141,39 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
         </div>
 
         {/* Configuration Bar */}
-        <div className="bg-slate-950/90 p-4 rounded-xl border border-slate-800 space-y-3 text-xs">
+        <div className="bg-slate-50 dark:bg-slate-950/90 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3 text-xs">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* Username */}
             <div>
-              <label className="block text-slate-400 font-medium mb-1">GitHub Username</label>
+              <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">GitHub Username</label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="e.g. Tsholi-Belle"
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-slate-100 font-mono focus:ring-1 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-slate-900 dark:text-slate-100 font-mono focus:ring-1 focus:ring-brand-500"
               />
             </div>
 
             {/* Repository */}
             <div>
-              <label className="block text-slate-400 font-medium mb-1">Target Repository</label>
+              <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">Target Repository</label>
               <input
                 type="text"
                 value={repo}
                 onChange={(e) => setRepo(e.target.value)}
                 placeholder="e.g. Tsholi-Belle/Chronotock"
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-slate-100 font-mono focus:ring-1 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-slate-900 dark:text-slate-100 font-mono focus:ring-1 focus:ring-brand-500"
               />
             </div>
 
             {/* Map to Project */}
             <div>
-              <label className="block text-slate-400 font-medium mb-1">Assign to Project</label>
+              <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">Assign to Project</label>
               <select
                 value={selectedProjectId}
                 onChange={(e) => setSelectedProjectId(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-slate-100 focus:ring-1 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
               >
                 {projects.map((p) => {
                   const c = clients.find((cli) => cli.id === p.clientId);
@@ -189,11 +189,11 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
 
           <div className="flex items-center justify-between pt-1 flex-wrap gap-2">
             {/* Filter Pills */}
-            <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg">
+            <div className="flex items-center gap-1 bg-slate-200/70 dark:bg-slate-900 p-1 rounded-lg border border-slate-300/50 dark:border-transparent">
               <button
                 onClick={() => setFilterType('all')}
                 className={`px-2.5 py-1 rounded text-[11px] font-medium transition ${
-                  filterType === 'all' ? 'bg-brand-600 text-white' : 'text-slate-400 hover:text-slate-200'
+                  filterType === 'all' ? 'bg-brand-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 All ({items.length})
@@ -203,7 +203,7 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                 className={`px-2.5 py-1 rounded text-[11px] font-medium transition ${
                   filterType === 'pull_request'
                     ? 'bg-purple-600 text-white'
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 PRs ({items.filter((i) => i.type === 'pull_request').length})
@@ -213,7 +213,7 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                 className={`px-2.5 py-1 rounded text-[11px] font-medium transition ${
                   filterType === 'commit'
                     ? 'bg-emerald-600 text-white'
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 Commits ({items.filter((i) => i.type === 'commit').length})
@@ -223,7 +223,7 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                 className={`px-2.5 py-1 rounded text-[11px] font-medium transition ${
                   filterType === 'push'
                     ? 'bg-amber-600 text-white'
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 Pushes ({items.filter((i) => i.type === 'push').length})
@@ -234,23 +234,23 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
             <button
               onClick={handleFetch}
               disabled={isLoading}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold border border-slate-300 dark:border-slate-700 transition"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-brand-400 ${isLoading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 text-brand-600 dark:text-brand-400 ${isLoading ? 'animate-spin' : ''}`} />
               <span>{isLoading ? 'Fetching GitHub...' : 'Refresh Activity'}</span>
             </button>
           </div>
         </div>
 
         {/* Items List */}
-        <div className="flex-1 min-h-[220px] max-h-[360px] overflow-y-auto rounded-xl border border-slate-800 bg-slate-950/60 divide-y divide-slate-800/60">
+        <div className="flex-1 min-h-[220px] max-h-[360px] overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 divide-y divide-slate-200 dark:divide-slate-800/60">
           {filteredItems.length === 0 ? (
-            <div className="p-8 text-center text-slate-400 text-xs space-y-2">
-              <FolderGit2 className="w-8 h-8 text-slate-600 mx-auto" />
+            <div className="p-8 text-center text-slate-500 dark:text-slate-400 text-xs space-y-2">
+              <FolderGit2 className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto" />
               <p>No recent GitHub activity found for {repo}.</p>
               <button
                 onClick={handleFetch}
-                className="text-brand-400 hover:underline font-semibold"
+                className="text-brand-600 dark:text-brand-400 hover:underline font-semibold"
               >
                 Click to retry or pull mock demo items
               </button>
@@ -263,8 +263,8 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                 <div
                   key={item.id}
                   onClick={() => toggleSelect(item.id)}
-                  className={`p-3 hover:bg-slate-900/80 transition cursor-pointer flex items-start gap-3 text-xs ${
-                    isSelected ? 'bg-slate-900/40' : 'opacity-60'
+                  className={`p-3 hover:bg-slate-100 dark:hover:bg-slate-900/80 transition cursor-pointer flex items-start gap-3 text-xs ${
+                    isSelected ? 'bg-slate-100/70 dark:bg-slate-900/40' : 'opacity-60'
                   }`}
                 >
                   {/* Checkbox */}
@@ -272,17 +272,17 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                     type="checkbox"
                     checked={isSelected}
                     onChange={() => {}}
-                    className="mt-1 rounded border-slate-700 text-brand-600 focus:ring-brand-500 cursor-pointer"
+                    className="mt-1 rounded border-slate-300 dark:border-slate-700 text-brand-600 focus:ring-brand-500 cursor-pointer"
                   />
 
                   {/* Icon */}
-                  <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 flex-shrink-0 mt-0.5">
+                  <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex-shrink-0 mt-0.5 shadow-sm">
                     {item.type === 'pull_request' ? (
-                      <GitPullRequest className="w-4 h-4 text-purple-400" />
+                      <GitPullRequest className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                     ) : item.type === 'commit' ? (
-                      <GitCommit className="w-4 h-4 text-emerald-400" />
+                      <GitCommit className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <GitBranch className="w-4 h-4 text-amber-400" />
+                      <GitBranch className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                     )}
                   </div>
 
@@ -292,22 +292,22 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                       <span
                         className={`text-[10px] font-bold px-2 py-0.2 rounded uppercase ${
                           item.type === 'pull_request'
-                            ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                            ? 'bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/30'
                             : item.type === 'commit'
-                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                            : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                            ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
+                            : 'bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30'
                         }`}
                       >
                         {item.type.replace('_', ' ')}
                       </span>
 
                       {item.status && (
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                           [{item.status}]
                         </span>
                       )}
 
-                      <span className="text-[10px] text-slate-500 font-mono">
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">
                         {new Date(item.timestamp).toLocaleDateString([], {
                           month: 'short',
                           day: 'numeric',
@@ -319,13 +319,13 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                       </span>
                     </div>
 
-                    <h4 className="font-semibold text-slate-100 text-xs">{item.title}</h4>
-                    <p className="text-slate-400 text-[11px] truncate font-mono">{item.message}</p>
+                    <h4 className="font-semibold text-slate-900 dark:text-slate-100 text-xs">{item.title}</h4>
+                    <p className="text-slate-500 dark:text-slate-400 text-[11px] truncate font-mono">{item.message}</p>
                   </div>
 
                   {/* Right Actions & Duration */}
                   <div className="flex flex-col items-end gap-1 flex-shrink-0 text-right">
-                    <span className="text-xs font-mono font-bold text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                    <span className="text-xs font-mono font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800">
                       {ExporterService.formatDuration(item.estimatedDurationMinutes)}
                     </span>
                     <a
@@ -333,7 +333,7 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="text-slate-500 hover:text-brand-400 flex items-center gap-0.5 text-[10px]"
+                      className="text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 flex items-center gap-0.5 text-[10px]"
                     >
                       <span>View on GitHub</span>
                       <ExternalLink className="w-2.5 h-2.5" />
@@ -346,17 +346,17 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={toggleSelectAll}
-              className="text-brand-400 hover:underline font-medium"
+              className="text-brand-600 dark:text-brand-400 hover:underline font-medium"
             >
               {selectedItemIds.length === filteredItems.length ? 'Deselect All' : 'Select All'}
             </button>
-            <span className="text-slate-400">
-              Selected: <strong className="text-white">{selectedItemIds.length}</strong> items (
+            <span className="text-slate-600 dark:text-slate-400">
+              Selected: <strong className="text-slate-900 dark:text-white">{selectedItemIds.length}</strong> items (
               {ExporterService.formatDuration(totalSelectedMinutes)})
             </span>
           </div>
@@ -365,7 +365,7 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition"
+              className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
             >
               Cancel
             </button>

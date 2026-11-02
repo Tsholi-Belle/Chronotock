@@ -93,8 +93,8 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       {/* Header & Filter */}
       <div className="flex flex-wrap items-center justify-between gap-4 glass-panel p-4 rounded-2xl">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <Layers className="w-5 h-5 text-brand-400" />
+          <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Layers className="w-5 h-5 text-brand-600 dark:text-brand-400" />
             Visual Day Timeline
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -196,10 +196,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                         apps.find((a) => a.id === hoveredLog.appId)?.color || '#3b82f6',
                     }}
                   />
-                  <span className="font-bold text-xs text-white">
+                  <span className="font-bold text-xs text-slate-900 dark:text-white">
                     {hoveredLog.appName}
                   </span>
-                  <span className="text-[10px] text-slate-400 font-mono">
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                     {new Date(hoveredLog.startTime).toLocaleTimeString([], {
                       hour: '2-digit',
                       minute: '2-digit',
@@ -210,22 +210,22 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                       minute: '2-digit',
                     })}
                   </span>
-                  <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                  <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">
                     {Math.round(hoveredLog.durationSeconds / 60)} min
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 font-mono">
+                <p className="text-xs text-slate-700 dark:text-slate-300 font-mono">
                   {hoveredLog.windowTitle || 'Active window session'}
                 </p>
                 {hoveredLog.manualNote && (
-                  <p className="text-xs text-brand-300 italic">
+                  <p className="text-xs text-brand-600 dark:text-brand-300 italic">
                     Note: {hoveredLog.manualNote}
                   </p>
                 )}
               </div>
 
               <div className="text-right text-xs">
-                <div className="text-slate-400">
+                <div className="text-slate-600 dark:text-slate-400">
                   {projects.find((p) => p.id === hoveredLog.projectId)?.name || 'Unassigned'}
                 </div>
                 <div className="text-[10px] text-slate-500">
@@ -237,11 +237,11 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
         </div>
 
         {/* App Distribution Percentage Bar */}
-        <div className="space-y-2 pt-4 border-t border-slate-800">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+        <div className="space-y-2 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Time Distribution by Application
           </span>
-          <div className="h-3 w-full rounded-full bg-slate-950 overflow-hidden flex shadow-inner">
+          <div className="h-3 w-full rounded-full bg-slate-200 dark:bg-slate-950 overflow-hidden flex shadow-inner">
             {appStats.map((stat) => (
               <div
                 key={stat.appId}
@@ -262,7 +262,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ backgroundColor: stat.color }}
                 />
-                <span className="text-slate-300 font-medium">{stat.shortName}</span>
+                <span className="text-slate-700 dark:text-slate-300 font-medium">{stat.shortName}</span>
                 <span className="text-slate-500 font-mono">
                   {stat.percentage}% ({ExporterService.formatDuration(stat.minutes)})
                 </span>
@@ -274,8 +274,8 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
 
       {/* Raw Activity Logs Stream */}
       <div className="glass-panel rounded-2xl overflow-hidden">
-        <div className="bg-slate-900/80 px-5 py-3 border-b border-slate-800 flex items-center justify-between">
-          <h3 className="font-semibold text-sm text-slate-200">
+        <div className="bg-slate-100/90 dark:bg-slate-900/80 px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <h3 className="font-semibold text-sm text-slate-900 dark:text-slate-200">
             Raw Activity Stream ({dayLogs.length} events recorded)
           </h3>
           <span className="text-xs text-slate-500">
@@ -283,7 +283,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </span>
         </div>
 
-        <div className="divide-y divide-slate-800/60 max-h-96 overflow-y-auto">
+        <div className="divide-y divide-slate-200 dark:divide-slate-800/60 max-h-96 overflow-y-auto">
           {dayLogs.map((log) => {
             const app = apps.find((a) => a.id === log.appId);
             const proj = projects.find((p) => p.id === log.projectId);
@@ -291,7 +291,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
             return (
               <div
                 key={log.id}
-                className="p-3 hover:bg-slate-900/50 transition flex items-center justify-between gap-4 text-xs"
+                className="p-3 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition flex items-center justify-between gap-4 text-xs"
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <span
@@ -300,7 +300,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                   />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-slate-200">{log.appName}</span>
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">{log.appName}</span>
                       <span className="text-slate-500 font-mono text-[10px]">
                         {new Date(log.startTime).toLocaleTimeString([], {
                           hour: '2-digit',
@@ -308,18 +308,18 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                         })}
                       </span>
                       {proj && (
-                        <span className="text-[10px] text-brand-400 bg-brand-500/10 px-1.5 py-0.2 rounded border border-brand-500/20">
+                        <span className="text-[10px] text-brand-600 dark:text-brand-400 bg-brand-500/10 px-1.5 py-0.2 rounded border border-brand-500/20">
                           {proj.name}
                         </span>
                       )}
                     </div>
-                    <p className="text-slate-400 font-mono text-[11px] truncate mt-0.5">
+                    <p className="text-slate-600 dark:text-slate-400 font-mono text-[11px] truncate mt-0.5">
                       {log.windowTitle || '(No window title)'}
                     </p>
                   </div>
                 </div>
 
-                <div className="text-right font-mono font-medium text-slate-300 flex-shrink-0">
+                <div className="text-right font-mono font-medium text-slate-700 dark:text-slate-300 flex-shrink-0">
                   {ExporterService.formatDuration(Math.round(log.durationSeconds / 60))}
                 </div>
               </div>

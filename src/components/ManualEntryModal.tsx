@@ -138,40 +138,40 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({
           {/* Date & Time Range */}
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Date</label>
+              <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Date</label>
               <input
                 type="date"
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:ring-1 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Start Time</label>
+              <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Start Time</label>
               <input
                 type="time"
                 required
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:ring-1 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-1">End Time</label>
+              <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">End Time</label>
               <input
                 type="time"
                 required
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:ring-1 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
               />
             </div>
           </div>
 
           {/* Project */}
           <div>
-            <label className="block text-slate-300 font-medium mb-1">Project & Client *</label>
+            <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Project & Client *</label>
             <select
               value={projectId}
               onChange={(e) => {
@@ -179,7 +179,7 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({
                 const p = projects.find((proj) => proj.id === e.target.value);
                 if (p && p.hourlyRate) setHourlyRate(p.hourlyRate);
               }}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:ring-1 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
             >
               {projects.map((p) => {
                 const c = clients.find((cli) => cli.id === p.clientId);
@@ -194,20 +194,20 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({
 
           {/* Description */}
           <div>
-            <label className="block text-slate-300 font-medium mb-1">Work Description / Summary *</label>
+            <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Work Description / Summary *</label>
             <input
               type="text"
               required
               placeholder="e.g. Implemented Apple Pay support & fixed checkout validation"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:ring-1 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-1 focus:ring-brand-500"
             />
           </div>
 
           {/* Tracked Apps selector */}
           <div>
-            <label className="block text-slate-300 font-medium mb-1.5">Tracked Apps Involved</label>
+            <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1.5">Tracked Apps Involved</label>
             <div className="flex flex-wrap gap-1.5">
               {apps.map((app) => {
                 const selected = selectedAppIds.includes(app.id);
@@ -219,7 +219,7 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({
                     className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition ${
                       selected
                         ? 'bg-brand-600 text-white border-brand-500 shadow-sm'
-                        : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-800 hover:text-slate-900 dark:hover:text-slate-200'
                     }`}
                   >
                     {app.shortName}
@@ -231,13 +231,13 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({
 
           {/* Sub-tasks / Details (optional) */}
           <div>
-            <label className="block text-slate-300 font-medium mb-1">Sub-tasks / Notes (One per line)</label>
+            <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Sub-tasks / Notes (One per line)</label>
             <textarea
               rows={3}
               placeholder="e.g.&#10;- Refactored Stripe webhook handler&#10;- Added unit tests in Jest"
               value={detailsText}
               onChange={(e) => setDetailsText(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 font-mono text-[11px] focus:ring-1 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 font-mono text-[11px] focus:ring-1 focus:ring-brand-500"
             />
           </div>
 
@@ -249,33 +249,33 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({
                 id="modalBillable"
                 checked={isBillable}
                 onChange={(e) => setIsBillable(e.target.checked)}
-                className="rounded border-slate-800 text-brand-500 focus:ring-brand-500"
+                className="rounded border-slate-300 dark:border-slate-800 text-brand-600 focus:ring-brand-500"
               />
-              <label htmlFor="modalBillable" className="text-slate-300 font-medium cursor-pointer">
+              <label htmlFor="modalBillable" className="text-slate-700 dark:text-slate-300 font-medium cursor-pointer">
                 Billable to Client
               </label>
             </div>
 
             {isBillable && (
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Hourly Rate ($/hr)</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">Hourly Rate ($/hr)</label>
                 <input
                   type="number"
                   min="0"
                   value={hourlyRate}
                   onChange={(e) => setHourlyRate(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:ring-1 focus:ring-brand-500"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
                 />
               </div>
             )}
           </div>
 
           {/* Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 transition"
+              className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
             >
               Cancel
             </button>

@@ -108,11 +108,11 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Top Banner */}
       <div className="glass-panel p-5 rounded-2xl">
-        <h2 className="text-base font-bold text-white flex items-center gap-2">
-          <BarChart3 className="w-5 h-5 text-brand-400" />
+        <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <BarChart3 className="w-5 h-5 text-brand-600 dark:text-brand-400" />
           Work & Productivity Analytics
         </h2>
-        <p className="text-xs text-slate-400 mt-0.5">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
           Consolidated performance metrics, billable ratio, and application usage patterns.
         </p>
       </div>
@@ -120,10 +120,10 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="glass-panel p-4 rounded-2xl">
-          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Total Timesheet Hours
           </span>
-          <div className="mt-2 text-2xl font-bold text-white font-mono">
+          <div className="mt-2 text-2xl font-bold text-slate-900 dark:text-white font-mono">
             {ExporterService.formatDuration(totalMinutes)}
           </div>
           <div className="text-xs text-slate-500 mt-1 font-mono">
@@ -132,10 +132,10 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
         </div>
 
         <div className="glass-panel p-4 rounded-2xl">
-          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Billable Efficiency
           </span>
-          <div className="mt-2 text-2xl font-bold text-emerald-400 font-mono">
+          <div className="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">
             {billablePercentage}%
           </div>
           <div className="text-xs text-slate-500 mt-1">
@@ -144,20 +144,20 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
         </div>
 
         <div className="glass-panel p-4 rounded-2xl">
-          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Accumulated Value
           </span>
-          <div className="mt-2 text-2xl font-bold text-amber-300 font-mono">
+          <div className="mt-2 text-2xl font-bold text-amber-600 dark:text-amber-300 font-mono">
             ${totalEarnings.toFixed(2)}
           </div>
           <div className="text-xs text-slate-500 mt-1">Across all logged projects</div>
         </div>
 
         <div className="glass-panel p-4 rounded-2xl">
-          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Avg Continuous Focus
           </span>
-          <div className="mt-2 text-2xl font-bold text-purple-400 font-mono">
+          <div className="mt-2 text-2xl font-bold text-purple-600 dark:text-purple-400 font-mono">
             {averageFocusSessionMinutes}m
           </div>
           <div className="text-xs text-slate-500 mt-1">Per app focus session</div>
@@ -169,8 +169,8 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
         {/* Apps Breakdown */}
         <div className="glass-panel p-5 rounded-2xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-brand-400" />
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+              <Layers className="w-4 h-4 text-brand-600 dark:text-brand-400" />
               Time Spent by Application
             </h3>
             <span className="text-xs text-slate-500 font-mono">
@@ -187,17 +187,17 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                       className="w-2.5 h-2.5 rounded-full"
                       style={{ backgroundColor: app.color }}
                     />
-                    <span className="font-semibold text-slate-200">{app.name}</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">{app.name}</span>
                     <span className="text-[10px] text-slate-500 uppercase font-semibold">
                       ({app.category})
                     </span>
                   </div>
-                  <span className="font-mono text-slate-300 font-medium">
+                  <span className="font-mono text-slate-700 dark:text-slate-300 font-medium">
                     {ExporterService.formatDuration(app.minutes)} ({app.percentage}%)
                   </span>
                 </div>
 
-                <div className="h-2 w-full bg-slate-950 rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-slate-200 dark:bg-slate-950 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
@@ -214,8 +214,8 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
         {/* Projects Breakdown */}
         <div className="glass-panel p-5 rounded-2xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               Time & Value by Project
             </h3>
             <span className="text-xs text-slate-500 font-mono">
@@ -225,7 +225,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
 
           <div className="space-y-3">
             {projectBreakdown.map((proj) => (
-              <div key={proj.projId} className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
+              <div key={proj.projId} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span
@@ -233,23 +233,23 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                       style={{ backgroundColor: proj.color }}
                     />
                     <div>
-                      <span className="font-bold text-slate-200">{proj.name}</span>
-                      <div className="text-[10px] text-slate-400">{proj.clientName}</div>
+                      <span className="font-bold text-slate-800 dark:text-slate-200">{proj.name}</span>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400">{proj.clientName}</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-mono font-bold text-slate-200">
+                    <div className="font-mono font-bold text-slate-800 dark:text-slate-200">
                       {ExporterService.formatDuration(proj.minutes)}
                     </div>
                     {proj.amount > 0 && (
-                      <div className="text-[10px] text-emerald-400 font-mono font-semibold">
+                      <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-semibold">
                         ${proj.amount.toFixed(2)}
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="h-1.5 w-full bg-slate-900 rounded-full overflow-hidden">
+                <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-900 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{

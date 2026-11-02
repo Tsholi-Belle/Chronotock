@@ -191,88 +191,88 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
       {/* 1. Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Time */}
-        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-300 dark:hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Total Work Logged
             </span>
-            <div className="p-2 rounded-xl bg-brand-500/10 text-brand-400">
+            <div className="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
               <Clock className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-white font-mono">
+            <span className="text-2xl font-bold text-slate-900 dark:text-white font-mono">
               {ExporterService.formatDuration(totalMinutes)}
             </span>
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
               ({ExporterService.formatDecimalHours(totalMinutes)} hrs)
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-slate-400">
+          <div className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
             Across {filteredEntries.length} consolidated timesheet blocks
           </div>
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-500 to-cyan-500 opacity-60" />
         </div>
 
         {/* Billable Time */}
-        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-300 dark:hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Billable Hours
             </span>
-            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-emerald-400 font-mono">
+            <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 font-mono">
               {ExporterService.formatDuration(billableMinutes)}
             </span>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-slate-500 dark:text-slate-400">
               ({totalMinutes > 0 ? Math.round((billableMinutes / totalMinutes) * 100) : 0}% of total)
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-slate-400">
+          <div className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
             {ExporterService.formatDuration(totalMinutes - billableMinutes)} non-billable / admin
           </div>
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500 opacity-60" />
         </div>
 
         {/* Total Value */}
-        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-300 dark:hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Billable Value
             </span>
-            <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+            <div className="p-2 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
               <DollarSign className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-amber-300 font-mono">
+            <span className="text-2xl font-bold text-amber-600 dark:text-amber-300 font-mono">
               ${totalEarnings.toFixed(2)}
             </span>
-            <span className="text-xs text-slate-400 font-mono">USD</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">USD</span>
           </div>
-          <div className="mt-2 text-[11px] text-slate-400">
+          <div className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
             Avg rate: ${(totalEarnings / Math.max(0.1, billableMinutes / 60)).toFixed(0)}/hr
           </div>
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-500 opacity-60" />
         </div>
 
         {/* Tracked Apps */}
-        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition">
+        <div className="glass-panel p-4 rounded-2xl relative overflow-hidden group hover:border-slate-300 dark:hover:border-slate-700 transition">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Active Apps Today
             </span>
-            <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400">
+            <div className="p-2 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
               <Layers className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-white font-mono">{uniqueAppsCount}</span>
-            <span className="text-xs text-slate-400">applications</span>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white font-mono">{uniqueAppsCount}</span>
+            <span className="text-xs text-slate-500 dark:text-slate-400">applications</span>
           </div>
           <div className="mt-2 flex items-center gap-1.5 flex-wrap">
             {apps
@@ -281,7 +281,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
               .map((app) => (
                 <span
                   key={app.id}
-                  className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700"
+                  className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
                 >
                   <span
                     className="w-1.5 h-1.5 rounded-full mr-1"
@@ -445,12 +445,12 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: section.color }}
                   />
-                  <h3 className="font-semibold text-sm text-slate-200">{section.title}</h3>
+                  <h3 className="font-semibold text-sm text-slate-800 dark:text-slate-200">{section.title}</h3>
                   <span className="text-xs text-slate-500">
                     ({section.entries.length} sessions)
                   </span>
                 </div>
-                <div className="text-xs font-mono font-bold text-slate-300">
+                <div className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">
                   {ExporterService.formatDuration(
                     section.entries.reduce((a, b) => a + b.roundedMinutes, 0)
                   )}
@@ -461,10 +461,10 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
             {/* Timesheet Entries List */}
             {section.entries.length === 0 ? (
               <div className="p-12 text-center">
-                <div className="inline-flex p-4 rounded-full bg-slate-900 text-slate-500 mb-3">
+                <div className="inline-flex p-4 rounded-full bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-500 mb-3">
                   <Clock className="w-6 h-6" />
                 </div>
-                <h4 className="text-sm font-semibold text-slate-300">No activity recorded for this day</h4>
+                <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-300">No activity recorded for this day</h4>
                 <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                   Start tracking in the top bar, enable background monitoring, or click "Log Time" to add a manual entry.
                 </p>
@@ -478,7 +478,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                   </button>
                   <button
                     onClick={onRefreshConsolidation}
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium transition"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
                     <span>Load Demo Workday</span>
@@ -486,7 +486,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                 </div>
               </div>
             ) : (
-              <div className="divide-y divide-slate-800/60">
+              <div className="divide-y divide-slate-200 dark:divide-slate-800/60">
                 {section.entries.map((entry) => {
                   const isExpanded = !!expandedDetails[entry.id];
                   const isCopied = copiedId === entry.id;
@@ -494,14 +494,14 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                   return (
                     <div
                       key={entry.id}
-                      className="p-4 hover:bg-slate-900/60 transition group flex flex-col gap-3"
+                      className="p-4 hover:bg-slate-50/80 dark:hover:bg-slate-900/60 transition group flex flex-col gap-3"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         {/* Left: Time, Project, Client, and Description */}
                         <div className="flex items-start gap-3 flex-1 min-w-[280px]">
                           {/* Time range badge */}
-                          <div className="flex flex-col items-center justify-center px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 min-w-[90px]">
-                            <span className="font-mono text-xs font-bold text-slate-200">
+                          <div className="flex flex-col items-center justify-center px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 min-w-[90px]">
+                            <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
                               {entry.startTime}
                             </span>
                             <span className="text-[10px] text-slate-500">to {entry.endTime}</span>
@@ -531,8 +531,8 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                               <span
                                 className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border ${
                                   entry.isBillable
-                                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                                    : 'bg-slate-800 text-slate-400 border-slate-700'
+                                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+                                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700'
                                 }`}
                               >
                                 {entry.isBillable ? `Billable ($${entry.hourlyRate}/h)` : 'Internal'}
@@ -540,14 +540,14 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
 
                               {/* Manual vs Auto indicator */}
                               {entry.isManual && (
-                                <span className="text-[10px] font-medium text-slate-500 bg-slate-800/60 px-1.5 py-0.5 rounded">
+                                <span className="text-[10px] font-medium text-slate-500 bg-slate-200 dark:bg-slate-800/60 px-1.5 py-0.5 rounded">
                                   Manual
                                 </span>
                               )}
                             </div>
 
                             {/* Consolidated Work Description */}
-                            <p className="text-sm font-medium text-slate-100 leading-snug">
+                            <p className="text-sm font-medium text-slate-900 dark:text-slate-100 leading-snug">
                               {entry.description}
                             </p>
 
@@ -557,7 +557,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                               {entry.appNames.map((appName, i) => (
                                 <span
                                   key={i}
-                                  className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-slate-950 text-slate-300 border border-slate-800"
+                                  className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
                                 >
                                   {appName}
                                 </span>
@@ -567,7 +567,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                               {entry.details && entry.details.length > 0 && (
                                 <button
                                   onClick={() => toggleExpand(entry.id)}
-                                  className="text-[11px] text-brand-400 hover:text-brand-300 ml-2 font-medium inline-flex items-center gap-0.5"
+                                  className="text-[11px] text-brand-600 dark:text-brand-400 hover:text-brand-500 dark:hover:text-brand-300 ml-2 font-medium inline-flex items-center gap-0.5"
                                 >
                                   {isExpanded ? (
                                     <>
@@ -588,13 +588,13 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                         <div className="flex items-center gap-4">
                           {/* Duration Display */}
                           <div className="text-right">
-                            <div className="font-mono text-base font-bold text-white">
+                            <div className="font-mono text-base font-bold text-slate-900 dark:text-white">
                               {ExporterService.formatDuration(entry.roundedMinutes)}
                             </div>
                             <div className="text-[10px] text-slate-500 font-mono">
                               {entry.isBillable ? `$${entry.billableAmount.toFixed(2)}` : 'Non-billable'}
                               {settings.roundingIncrement > 0 && (
-                                <span className="ml-1 text-slate-600">
+                                <span className="ml-1 text-slate-400 dark:text-slate-600">
                                   (raw: {ExporterService.formatDuration(entry.durationMinutes)})
                                 </span>
                               )}
@@ -609,8 +609,8 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                               title="Copy timesheet row"
                               className={`p-2 rounded-lg border transition ${
                                 isCopied
-                                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                                  : 'bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border-slate-800'
+                                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/40'
+                                  : 'bg-slate-100 dark:bg-slate-950 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border-slate-200 dark:border-slate-800'
                               }`}
                             >
                               {isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -620,7 +620,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                             <button
                               onClick={() => onEditEntry(entry)}
                               title="Edit Entry"
-                              className="p-2 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800 transition"
+                              className="p-2 rounded-lg bg-slate-100 dark:bg-slate-950 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800 transition"
                             >
                               <Edit3 className="w-3.5 h-3.5" />
                             </button>
@@ -629,7 +629,7 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
                             <button
                               onClick={() => onDeleteEntry(entry.id)}
                               title="Delete Entry"
-                              className="p-2 rounded-lg bg-slate-950 hover:bg-red-500/20 text-slate-400 hover:text-red-400 border border-slate-800 transition"
+                              className="p-2 rounded-lg bg-slate-100 dark:bg-slate-950 hover:bg-red-500/20 text-slate-600 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 border border-slate-200 dark:border-slate-800 transition"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -639,15 +639,15 @@ export const TimesheetView: React.FC<TimesheetViewProps> = ({
 
                       {/* Expandable Sub-Tasks & Windows Breakdown */}
                       {isExpanded && entry.details && (
-                        <div className="mt-2 ml-12 p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl space-y-1.5 animate-fade-in">
+                        <div className="mt-2 ml-12 p-3 bg-slate-100/80 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 rounded-xl space-y-1.5 animate-fade-in">
                           <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                             Detailed Window Titles & Activity Trace
                           </span>
                           <ul className="space-y-1">
                             {entry.details.map((d, i) => (
-                              <li key={i} className="text-xs text-slate-300 flex items-start gap-2">
-                                <span className="text-brand-400 mt-0.5">•</span>
-                                <span className="font-mono text-[11px] text-slate-300">{d}</span>
+                              <li key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2">
+                                <span className="text-brand-600 dark:text-brand-400 mt-0.5">•</span>
+                                <span className="font-mono text-[11px] text-slate-700 dark:text-slate-300">{d}</span>
                               </li>
                             ))}
                           </ul>

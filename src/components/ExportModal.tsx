@@ -122,19 +122,19 @@ export const ExportModal: React.FC<ExportModalProps> = ({
         </div>
 
         {/* Scope Selector */}
-        <div className="flex items-center justify-between gap-4 bg-slate-950/80 p-2 rounded-xl border border-slate-800 text-xs">
-          <div className="flex items-center gap-2 text-slate-300">
-            <Calendar className="w-4 h-4 text-brand-400" />
+        <div className="flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-950/80 p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-xs">
+          <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <Calendar className="w-4 h-4 text-brand-600 dark:text-brand-400" />
             <span className="font-medium">Export Scope:</span>
           </div>
 
-          <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg">
+          <div className="flex items-center gap-1 bg-slate-200/80 dark:bg-slate-900 p-1 rounded-lg border border-slate-300/50 dark:border-transparent">
             <button
               onClick={() => setExportScope('selected-date')}
               className={`px-3 py-1 rounded-md font-medium transition ${
                 exportScope === 'selected-date'
                   ? 'bg-brand-600 text-white'
-                  : 'text-slate-400 hover:text-slate-200'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               Selected Date ({selectedDate})
@@ -144,7 +144,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
               className={`px-3 py-1 rounded-md font-medium transition ${
                 exportScope === 'all'
                   ? 'bg-brand-600 text-white'
-                  : 'text-slate-400 hover:text-slate-200'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               All Recorded Days ({entries.length} blocks)
@@ -161,7 +161,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-medium whitespace-nowrap transition ${
                 selectedFormat === tab.id
                   ? 'bg-brand-600 text-white shadow-md shadow-brand-900/30'
-                  : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  : 'bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800'
               }`}
             >
               {tab.icon}
@@ -171,9 +171,9 @@ export const ExportModal: React.FC<ExportModalProps> = ({
         </div>
 
         {/* Code / Text Preview */}
-        <div className="relative flex-1 min-h-[260px] bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-inner flex flex-col">
-          <div className="bg-slate-900/80 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-[11px]">
-            <span className="text-slate-400 font-mono">
+        <div className="relative flex-1 min-h-[260px] bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-inner flex flex-col">
+          <div className="bg-slate-200/70 dark:bg-slate-900/80 px-4 py-2 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px]">
+            <span className="text-slate-600 dark:text-slate-400 font-mono">
               Preview ({filteredEntries.length} items formatted)
             </span>
             <span className="text-slate-500">Ready to copy / download</span>
@@ -182,15 +182,15 @@ export const ExportModal: React.FC<ExportModalProps> = ({
           <textarea
             readOnly
             value={previewContent}
-            className="flex-1 w-full p-4 bg-transparent text-xs font-mono text-slate-200 focus:outline-none resize-none selection:bg-brand-500/30"
+            className="flex-1 w-full p-4 bg-transparent text-xs font-mono text-slate-900 dark:text-slate-200 focus:outline-none resize-none selection:bg-brand-500/30"
           />
         </div>
 
         {/* Footer Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
           <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium transition"
           >
             <Printer className="w-4 h-4" />
             <span>Print Timesheet</span>
