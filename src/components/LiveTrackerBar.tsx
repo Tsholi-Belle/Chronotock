@@ -196,10 +196,10 @@ export const LiveTrackerBar: React.FC<LiveTrackerBarProps> = ({
               value={currentTaskTitle}
               onChange={(e) => setCurrentTaskTitle(e.target.value)}
               placeholder="What are you working on? (or auto-detected from active window)"
-              className="w-full bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 focus:border-brand-500 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500 transition"
+              className="w-full bg-slate-100/80 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-800 focus:border-brand-500 rounded-xl pl-3 pr-24 py-2 text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500 transition"
             />
             {currentTaskTitle && (
-              <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 dark:text-slate-500 font-mono">
+              <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-400 dark:text-slate-500 font-mono pointer-events-none select-none">
                 Auto-tagged
               </span>
             )}
