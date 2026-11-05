@@ -1,15 +1,4 @@
 import React, { useMemo } from 'react';
-import { 
-  BarChart3, 
-  PieChart, 
-  TrendingUp, 
-  Clock, 
-  DollarSign, 
-  Sparkles, 
-  Zap, 
-  Layers,
-  ArrowUpRight
-} from 'lucide-react';
 import { ActivityLog, TimesheetEntry, TrackedApp, Project, Client } from '../types';
 import { ExporterService } from '../services/exporter';
 
@@ -37,7 +26,6 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
     return entries.filter((e) => e.isBillable).reduce((a, b) => a + b.roundedMinutes, 0);
   }, [entries]);
 
-  const nonBillableMinutes = totalMinutes - billableMinutes;
   const billablePercentage = totalMinutes > 0 ? Math.round((billableMinutes / totalMinutes) * 100) : 0;
   const totalEarnings = entries.reduce((a, b) => a + b.billableAmount, 0);
 
@@ -108,8 +96,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Top Banner */}
       <div className="glass-panel p-5 rounded-2xl">
-        <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <BarChart3 className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+        <h2 className="text-base font-bold text-slate-900 dark:text-white">
           Work & Productivity Analytics
         </h2>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -169,8 +156,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
         {/* Apps Breakdown */}
         <div className="glass-panel p-5 rounded-2xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-brand-600 dark:text-brand-400" />
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
               Time Spent by Application
             </h3>
             <span className="text-xs text-slate-500 font-mono">
@@ -183,10 +169,6 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               <div key={app.appId} className="space-y-1">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full"
-                      style={{ backgroundColor: app.color }}
-                    />
                     <span className="font-semibold text-slate-800 dark:text-slate-200">{app.name}</span>
                     <span className="text-[10px] text-slate-500 uppercase font-semibold">
                       ({app.category})
@@ -214,8 +196,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
         {/* Projects Breakdown */}
         <div className="glass-panel p-5 rounded-2xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
               Time & Value by Project
             </h3>
             <span className="text-xs text-slate-500 font-mono">
@@ -227,15 +208,9 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
             {projectBreakdown.map((proj) => (
               <div key={proj.projId} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full"
-                      style={{ backgroundColor: proj.color }}
-                    />
-                    <div>
-                      <span className="font-bold text-slate-800 dark:text-slate-200">{proj.name}</span>
-                      <div className="text-[10px] text-slate-500 dark:text-slate-400">{proj.clientName}</div>
-                    </div>
+                  <div>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{proj.name}</span>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">{proj.clientName}</div>
                   </div>
                   <div className="text-right">
                     <div className="font-mono font-bold text-slate-800 dark:text-slate-200">

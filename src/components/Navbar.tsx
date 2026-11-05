@@ -1,23 +1,4 @@
 import React from 'react';
-import { 
-  Clock, 
-  Layers, 
-  Calendar, 
-  Grid, 
-  Sliders, 
-  BarChart3, 
-  Settings, 
-  Download, 
-  Plus, 
-  ChevronLeft, 
-  ChevronRight,
-  Radio,
-  CheckCircle2,
-  FolderGit2,
-  Sun,
-  Moon,
-  Laptop
-} from 'lucide-react';
 import { ActiveTab, TimesheetSettings } from '../types';
 
 interface NavbarProps {
@@ -47,7 +28,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSettings,
   onToggleTheme,
   settings,
-  daemonConnected,
 }) => {
   const handlePrevDay = () => {
     const d = new Date(selectedDate);
@@ -74,24 +54,18 @@ export const Navbar: React.FC<NavbarProps> = ({
     year: 'numeric',
   });
 
-  const navItems: { id: ActiveTab; label: string; icon: React.ReactNode }[] = [
-    { id: 'timesheet', label: 'Timesheet', icon: <Clock className="w-4 h-4" /> },
-    { id: 'timeline', label: 'Day Timeline', icon: <Layers className="w-4 h-4" /> },
-    { id: 'apps', label: 'Tracked Apps', icon: <Grid className="w-4 h-4" /> },
-    { id: 'rules', label: 'Rules & Mapping', icon: <Sliders className="w-4 h-4" /> },
-    { id: 'analytics', label: 'Analytics', icon: <BarChart3 className="w-4 h-4" /> },
+  const navItems: { id: ActiveTab; label: string }[] = [
+    { id: 'timesheet', label: 'Timesheet' },
+    { id: 'timeline', label: 'Day Timeline' },
+    { id: 'apps', label: 'Tracked Apps' },
+    { id: 'rules', label: 'Rules & Mapping' },
+    { id: 'analytics', label: 'Analytics' },
   ];
 
-  const getThemeIcon = () => {
-    if (settings.theme === 'light') return <Sun className="w-4 h-4 text-amber-500" />;
-    if (settings.theme === 'dark') return <Moon className="w-4 h-4 text-brand-400" />;
-    return <Laptop className="w-4 h-4 text-slate-400" />;
-  };
-
-  const getThemeTitle = () => {
-    if (settings.theme === 'light') return 'Light Theme (Click to toggle)';
-    if (settings.theme === 'dark') return 'Dark Theme (Click to toggle)';
-    return 'System Theme (Click to toggle)';
+  const getThemeLabel = () => {
+    if (settings.theme === 'light') return 'Light';
+    if (settings.theme === 'dark') return 'Dark';
+    return 'System';
   };
 
   return (
@@ -100,14 +74,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
           <div className="flex items-center gap-3">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-cyan-500 shadow-lg shadow-brand-500/20 text-white font-bold">
-              <Clock className="w-5 h-5" />
-              {isTracking && (
-                <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white dark:border-slate-900"></span>
-                </span>
-              )}
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-cyan-500 shadow-md text-white font-bold text-sm">
+              CT
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -117,6 +85,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
                   Timesheet AI
                 </span>
+                {isTracking && (
+                  <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Live
+                  </span>
+                )}
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400">Multi-App Work Consolidator</p>
             </div>
@@ -129,96 +102,100 @@ export const Navbar: React.FC<NavbarProps> = ({
               return (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                  className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
                     active
                       ? 'bg-brand-600 text-white shadow-md shadow-brand-600/30'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  {item.icon}
-                  <span>{item.label}</span>
+                  {item.label}
                 </button>
               );
             })}
           </nav>
 
           {/* Right Actions & Date Navigator */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {/* Date Picker Switcher */}
             <div className="flex items-center bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-lg p-1 text-xs">
               <button
+                type="button"
                 onClick={handlePrevDay}
                 title="Previous Day"
-                className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition"
+                className="px-1.5 py-0.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition font-mono"
               >
-                <ChevronLeft className="w-4 h-4" />
+                &larr;
               </button>
               <div className="flex items-center gap-1 px-2">
-                <Calendar className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
                 <span className="font-medium text-slate-800 dark:text-slate-200">{formattedDate}</span>
                 {!isToday && (
                   <button
+                    type="button"
                     onClick={handleToday}
                     className="ml-1 text-[10px] text-brand-600 dark:text-brand-400 hover:underline font-medium"
                   >
-                    (Today)
+                    Today
                   </button>
                 )}
               </div>
               <button
+                type="button"
                 onClick={handleNextDay}
                 title="Next Day"
-                className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition"
+                className="px-1.5 py-0.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition font-mono"
               >
-                <ChevronRight className="w-4 h-4" />
+                &rarr;
               </button>
             </div>
 
             {/* Manual Entry Button */}
             <button
+              type="button"
               onClick={onOpenManualEntry}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium border border-slate-200 dark:border-slate-700 transition"
+              className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium border border-slate-200 dark:border-slate-700 transition"
             >
-              <Plus className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
-              <span>Log Time</span>
+              Log Time
             </button>
 
             {/* GitHub Sync Button */}
             <button
+              type="button"
               onClick={onOpenGitHubSync}
               title="Pull GitHub Pull Requests & Commits"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-slate-900 hover:bg-purple-100 dark:hover:bg-slate-800 text-purple-700 dark:text-purple-300 text-xs font-semibold border border-purple-300 dark:border-purple-500/30 shadow-sm transition"
+              className="px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-slate-900 hover:bg-purple-100 dark:hover:bg-slate-800 text-purple-700 dark:text-purple-300 text-xs font-semibold border border-purple-300 dark:border-purple-500/30 shadow-sm transition"
             >
-              <FolderGit2 className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-              <span>GitHub Sync</span>
+              GitHub Sync
             </button>
 
             {/* Export Timesheet Button */}
             <button
+              type="button"
               onClick={onOpenExport}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold shadow-md shadow-emerald-900/30 transition"
+              className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold shadow-md shadow-emerald-900/30 transition"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>Export</span>
+              Export
             </button>
 
             {/* Quick Theme Toggle Button */}
             <button
+              type="button"
               onClick={onToggleTheme}
-              title={getThemeTitle()}
-              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+              title={`Current: ${getThemeLabel()} Theme (Click to cycle)`}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition"
             >
-              {getThemeIcon()}
+              {getThemeLabel()}
             </button>
 
             {/* Settings */}
             <button
+              type="button"
               onClick={onOpenSettings}
               title="Settings & Preferences"
-              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition"
             >
-              <Settings className="w-4 h-4" />
+              Settings
             </button>
           </div>
         </div>
@@ -226,4 +203,3 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
-

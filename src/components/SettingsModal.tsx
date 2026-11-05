@@ -1,23 +1,4 @@
 import React, { useState } from 'react';
-import { 
-  Settings, 
-  X, 
-  Terminal, 
-  Save, 
-  RotateCcw, 
-  Upload, 
-  Download, 
-  Check, 
-  ShieldCheck,
-  Cpu,
-  Info,
-  DollarSign,
-  Sun,
-  Moon,
-  Laptop,
-  Briefcase,
-  Sliders
-} from 'lucide-react';
 import { TimesheetSettings, RoundingIncrement, RoundingMethod, ThemeMode, IndustryPresetId } from '../types';
 import { StorageService, INDUSTRY_PRESETS } from '../services/storage';
 
@@ -90,10 +71,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     setTimeout(() => setCopiedCmd(false), 2000);
   };
 
-  const themes: { id: ThemeMode; label: string; icon: React.ReactNode; desc: string }[] = [
-    { id: 'dark', label: 'Dark Theme', icon: <Moon className="w-4 h-4 text-brand-400" />, desc: 'High contrast dark background' },
-    { id: 'light', label: 'Light Theme', icon: <Sun className="w-4 h-4 text-amber-500" />, desc: 'Clean bright layout' },
-    { id: 'system', label: 'System Default', icon: <Laptop className="w-4 h-4 text-slate-400" />, desc: 'Follow OS preferences' },
+  const themes: { id: ThemeMode; label: string; desc: string }[] = [
+    { id: 'dark', label: 'Dark Theme', desc: 'High contrast dark background' },
+    { id: 'light', label: 'Light Theme', desc: 'Clean bright layout' },
+    { id: 'system', label: 'System Default', desc: 'Follow OS preferences' },
   ];
 
   return (
@@ -101,26 +82,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-5 animate-scale-in max-h-[90vh] overflow-y-auto text-slate-800 dark:text-slate-100">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
-              <Settings className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">ChronoTrack Preferences</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Configure theme, rounding, billing rates, and OS tracker.</p>
-            </div>
+          <div>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">ChronoTrack Preferences</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Configure theme, rounding, billing rates, and OS tracker.</p>
           </div>
 
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 dark:hover:text-white">
-            <X className="w-5 h-5" />
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-xs font-medium px-2 py-1 rounded"
+          >
+            Close
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5 text-xs">
           {/* Appearance & Theme Selection */}
           <div className="p-4 bg-slate-50 dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
-            <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-2">
-              <Sun className="w-4 h-4 text-brand-600 dark:text-brand-400" />
+            <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs">
               Appearance & Interface Theme
             </h4>
             <div className="grid grid-cols-3 gap-3">
@@ -138,11 +117,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     }`}
                   >
                     <div className="flex items-center justify-between w-full mb-1">
-                      <div className="flex items-center gap-2 font-semibold">
-                        {t.icon}
-                        <span>{t.label}</span>
-                      </div>
-                      {isSelected && <Check className="w-4 h-4 text-brand-600 dark:text-brand-400" />}
+                      <span className="font-semibold">{t.label}</span>
+                      {isSelected && <span className="text-[10px] font-bold text-brand-600 dark:text-brand-400">Active</span>}
                     </div>
                     <span className="text-[11px] text-slate-500 dark:text-slate-400">{t.desc}</span>
                   </button>
@@ -154,12 +130,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* Career & Industry Tracker Profile */}
           <div className="p-4 bg-slate-50 dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-2">
-                <Briefcase className="w-4 h-4 text-brand-600 dark:text-brand-400" />
-                <span>Career & Industry Tracker Profile</span>
+              <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs">
+                Career & Industry Tracker Profile
               </h4>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
-                {formData.careerConfig?.badgeEmoji || '💻'} {formData.careerConfig?.industryName || 'Software & Tech'}
+                {formData.careerConfig?.industryName || 'Software & Tech'}
               </span>
             </div>
 
@@ -176,16 +151,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     key={id}
                     type="button"
                     onClick={() => setFormData({ ...formData, careerConfig: preset })}
-                    className={`flex items-center gap-2 p-2.5 rounded-xl border text-left text-xs transition ${
+                    className={`p-2.5 rounded-xl border text-left text-xs transition ${
                       isSelected
                         ? 'bg-brand-50 dark:bg-brand-950/50 border-brand-500 ring-2 ring-brand-500/20 text-brand-700 dark:text-brand-300 font-semibold'
                         : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
                     }`}
                   >
-                    <span className="text-base">{preset.badgeEmoji}</span>
-                    <div className="truncate">
-                      <div className="leading-tight">{preset.industryName.split(',')[0]}</div>
-                    </div>
+                    <div className="leading-tight font-medium">{preset.industryName.split(',')[0]}</div>
                   </button>
                 );
               })}
@@ -199,10 +171,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     onClose();
                     onOpenCareerCustomizer();
                   }}
-                  className="text-xs text-brand-600 dark:text-brand-400 hover:underline font-semibold flex items-center gap-1"
+                  className="text-xs text-brand-600 dark:text-brand-400 hover:underline font-semibold"
                 >
-                  <Sliders className="w-3.5 h-3.5" />
-                  <span>Customize Every Field & Placeholder...</span>
+                  Customize Every Field & Placeholder...
                 </button>
               </div>
             )}
@@ -210,7 +181,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* User Profile */}
           <div className="p-4 bg-slate-50 dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
-            <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-2">
+            <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs">
               User Profile & Timesheet Sign-off
             </h4>
             <div className="grid grid-cols-2 gap-3">
@@ -237,7 +208,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
           {/* Rounding & Billing */}
           <div className="p-4 bg-slate-50 dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
-            <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-2">
+            <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs">
               Timesheet Rounding & Consolidation
             </h4>
             
@@ -306,8 +277,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* macOS Background Tracking Daemon Guide */}
           <div className="p-4 bg-slate-50 dark:bg-gradient-to-r dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5">
             <div className="flex items-center justify-between">
-              <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs">
                 macOS Native Background Tracker Daemon
               </h4>
               <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
@@ -324,9 +294,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <button
                 type="button"
                 onClick={handleCopyCommand}
-                className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white ml-2 flex items-center gap-1 font-sans"
+                className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white ml-2 font-sans text-xs"
               >
-                {copiedCmd ? <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> : 'Copy'}
+                {copiedCmd ? 'Copied' : 'Copy'}
               </button>
             </div>
           </div>
@@ -337,15 +307,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <button
                 type="button"
                 onClick={handleExportBackup}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition"
+                className="px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition"
               >
-                <Download className="w-3.5 h-3.5" />
-                <span>Export Backup</span>
+                Export Backup
               </button>
 
-              <label className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 cursor-pointer transition">
-                <Upload className="w-3.5 h-3.5" />
-                <span>Restore Backup</span>
+              <label className="px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 cursor-pointer transition">
+                Restore Backup
                 <input type="file" accept=".json" onChange={handleImportBackup} className="hidden" />
               </label>
             </div>
@@ -353,10 +321,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <button
               type="button"
               onClick={onResetData}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30 transition"
+              className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30 transition"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset to Demo Data</span>
+              Reset to Demo Data
             </button>
           </div>
 
@@ -371,10 +338,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </button>
             <button
               type="submit"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold shadow-md shadow-brand-900/30 transition"
+              className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold shadow-md shadow-brand-900/30 transition"
             >
-              {savedSuccess ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-              <span>{savedSuccess ? 'Saved!' : 'Save Preferences'}</span>
+              {savedSuccess ? 'Saved!' : 'Save Preferences'}
             </button>
           </div>
         </form>
@@ -382,4 +348,3 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     </div>
   );
 };
-

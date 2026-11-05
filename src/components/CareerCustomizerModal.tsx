@@ -1,22 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Briefcase, 
-  Code, 
-  Scale, 
-  HeartPulse, 
-  Calculator, 
-  Palette, 
-  TrendingUp, 
-  Sliders, 
-  X, 
-  Check, 
-  Sparkles, 
-  RotateCcw,
-  Eye,
-  Tag,
-  DollarSign,
-  ChevronDown
-} from 'lucide-react';
 import { CareerTrackerConfig, IndustryPresetId } from '../types';
 import { INDUSTRY_PRESETS } from '../services/storage';
 
@@ -89,57 +71,41 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
   const presetList: {
     id: IndustryPresetId;
     title: string;
-    emoji: string;
-    icon: React.ReactNode;
     subtitle: string;
   }[] = [
     {
       id: 'tech',
       title: 'Software & Tech',
-      emoji: '💻',
-      icon: <Code className="w-4 h-4 text-blue-500" />,
       subtitle: 'Code files, Git branches, PRs & tickets',
     },
     {
       id: 'legal',
       title: 'Legal & Law Firms',
-      emoji: '⚖️',
-      icon: <Scale className="w-4 h-4 text-amber-500" />,
       subtitle: 'Matters, case files, discovery & billable hours',
     },
     {
       id: 'healthcare',
       title: 'Healthcare & Clinical',
-      emoji: '🏥',
-      icon: <HeartPulse className="w-4 h-4 text-rose-500" />,
       subtitle: 'Patient charts, therapy sessions & CPT codes',
     },
     {
       id: 'accounting',
       title: 'Accounting & Tax',
-      emoji: '📊',
-      icon: <Calculator className="w-4 h-4 text-emerald-500" />,
       subtitle: 'Audits, tax returns, engagements & workstreams',
     },
     {
       id: 'creative',
       title: 'Design & Architecture',
-      emoji: '🎨',
-      icon: <Palette className="w-4 h-4 text-purple-500" />,
       subtitle: 'Creative assets, CAD drawings & design sprints',
     },
     {
       id: 'consulting',
       title: 'Management Consulting',
-      emoji: '📈',
-      icon: <TrendingUp className="w-4 h-4 text-cyan-500" />,
       subtitle: 'Strategy decks, deliverables & client workstreams',
     },
     {
       id: 'custom',
       title: 'Custom Career',
-      emoji: '⚙️',
-      icon: <Sliders className="w-4 h-4 text-slate-400" />,
       subtitle: 'Tailor every single label and placeholder',
     },
   ];
@@ -150,27 +116,26 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
         
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400">
-              <Briefcase className="w-5 h-5" />
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                Career & Industry Customization
+              </h3>
+              <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
+                {formData.industryName}
+              </span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  Career & Industry Customization
-                </h3>
-                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
-                  {formData.badgeEmoji} {formData.industryName}
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Customize the live tracker bars, fields, and placeholders to match your exact profession.
-              </p>
-            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Customize the live tracker bars, fields, and placeholders to match your exact profession.
+            </p>
           </div>
 
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 dark:hover:text-white">
-            <X className="w-5 h-5" />
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-xs font-medium px-2 py-1 rounded"
+          >
+            Close
           </button>
         </div>
 
@@ -194,17 +159,18 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-lg">{p.emoji}</span>
-                    {isSelected && <Check className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />}
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-tight">
+                    <span className="text-xs font-bold text-slate-900 dark:text-white">
                       {p.title}
-                    </h4>
-                    <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5">
-                      {p.subtitle}
-                    </p>
+                    </span>
+                    {isSelected && (
+                      <span className="text-[10px] font-bold text-brand-600 dark:text-brand-400">
+                        Selected
+                      </span>
+                    )}
                   </div>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5">
+                    {p.subtitle}
+                  </p>
                 </button>
               );
             })}
@@ -214,8 +180,7 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
         {/* 2. Interactive Live Preview */}
         <div className="p-4 rounded-xl bg-slate-100/80 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-              <Eye className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
+            <span className="font-bold text-slate-700 dark:text-slate-300">
               Live Tracker Bar Preview ({formData.industryName})
             </span>
             <span className="text-[10px] text-slate-500">Live preview of your customized bars</span>
@@ -224,10 +189,8 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
           {/* Mini Replica of the Tracker Bar */}
           <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-wrap items-center gap-2.5 text-xs">
             {/* Bar 1: App Selector */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-[11px] font-semibold text-slate-700 dark:text-slate-200">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span>{formData.appFieldLabel}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400 ml-1" />
+            <div className="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-[11px] font-semibold text-slate-700 dark:text-slate-200">
+              {formData.appFieldLabel}
             </div>
 
             {/* Bar 2: Task / Activity Input */}
@@ -236,15 +199,13 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
             </div>
 
             {/* Bar 3: Project Selector */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-[11px] font-medium text-slate-700 dark:text-slate-300">
-              <span>{formData.projectFieldLabel}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400 ml-1" />
+            <div className="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-[11px] font-medium text-slate-700 dark:text-slate-300">
+              {formData.projectFieldLabel}
             </div>
 
             {/* Bar 4: Billable Toggle */}
-            <div className="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[11px] font-semibold flex items-center gap-1">
-              <DollarSign className="w-3 h-3" />
-              <span>{formData.billableLabel}</span>
+            <div className="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 text-[11px] font-semibold">
+              {formData.billableLabel}
             </div>
           </div>
         </div>
@@ -252,8 +213,7 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
         {/* 3. Form customization */}
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div className="space-y-3">
-            <h4 className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-              <Sliders className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
+            <h4 className="font-bold text-slate-800 dark:text-slate-200">
               2. Fine-Tune Labels & Terminology
             </h4>
 
@@ -263,21 +223,12 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
                 <label className="block text-slate-700 dark:text-slate-300 font-medium mb-1">
                   Career / Industry Title
                 </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={formData.badgeEmoji}
-                    onChange={(e) => setFormData({ ...formData, badgeEmoji: e.target.value })}
-                    className="w-12 text-center bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-2 py-2 text-sm"
-                    title="Industry Emoji"
-                  />
-                  <input
-                    type="text"
-                    value={formData.industryName}
-                    onChange={(e) => setFormData({ ...formData, industryName: e.target.value })}
-                    className="flex-1 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
-                  />
-                </div>
+                <input
+                  type="text"
+                  value={formData.industryName}
+                  onChange={(e) => setFormData({ ...formData, industryName: e.target.value })}
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-slate-900 dark:text-slate-100 focus:ring-1 focus:ring-brand-500"
+                />
               </div>
 
               {/* Bar 1 Label (App / Tool) */}
@@ -397,16 +348,15 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
                 {formData.quickTags.map((t) => (
                   <span
                     key={t}
-                    className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-medium border border-slate-200 dark:border-slate-700"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-medium border border-slate-200 dark:border-slate-700"
                   >
-                    <Tag className="w-2.5 h-2.5 text-brand-600 dark:text-brand-400" />
                     <span>{t}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveTag(t)}
-                      className="hover:text-red-500 ml-0.5"
+                      className="hover:text-red-500 text-slate-400 font-bold"
                     >
-                      ×
+                      x
                     </button>
                   </span>
                 ))}
@@ -419,10 +369,9 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
             <button
               type="button"
               onClick={() => handleSelectPreset(activePreset)}
-              className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 text-xs font-medium"
+              className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 text-xs font-medium"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset to Default</span>
+              Reset to Default
             </button>
 
             <div className="flex items-center gap-2.5">
@@ -435,10 +384,9 @@ export const CareerCustomizerModal: React.FC<CareerCustomizerModalProps> = ({
               </button>
               <button
                 type="submit"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold shadow-md shadow-brand-900/30 transition"
+                className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold shadow-md shadow-brand-900/30 transition"
               >
-                <Check className="w-4 h-4" />
-                <span>Apply & Save Profile</span>
+                Apply & Save Profile
               </button>
             </div>
           </div>

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Plus, Trash2, Check, X, Calendar, DollarSign, Tag, Layers } from 'lucide-react';
-import { TimesheetEntry, Project, Client, TrackedApp, AppCategory } from '../types';
-import { ConsolidationEngine } from '../services/consolidation';
+import { TimesheetEntry, Project, Client, TrackedApp } from '../types';
 
 interface ManualEntryModalProps {
   isOpen: boolean;
@@ -125,12 +123,15 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({
     <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 animate-scale-in text-slate-800 dark:text-slate-100">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Clock className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+          <h3 className="text-base font-bold text-slate-900 dark:text-white">
             {initialEntry ? 'Edit Timesheet Entry' : 'Log Time Block'}
           </h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-sm">
-            <X className="w-5 h-5" />
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-white text-xs font-medium px-2 py-1 rounded"
+          >
+            Close
           </button>
         </div>
 
