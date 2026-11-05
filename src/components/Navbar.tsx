@@ -11,7 +11,6 @@ interface NavbarProps {
   onOpenExport: () => void;
   onOpenGitHubSync: () => void;
   onOpenSettings: () => void;
-  onToggleTheme: () => void;
   settings: TimesheetSettings;
   daemonConnected: boolean;
 }
@@ -26,8 +25,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenExport,
   onOpenGitHubSync,
   onOpenSettings,
-  onToggleTheme,
-  settings,
 }) => {
   const handlePrevDay = () => {
     const d = new Date(selectedDate);
@@ -62,12 +59,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'analytics', label: 'Analytics' },
   ];
 
-  const getThemeLabel = () => {
-    if (settings.theme === 'light') return 'Light';
-    if (settings.theme === 'dark') return 'Dark';
-    return 'System';
-  };
-
   return (
     <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,9 +72,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="flex items-center gap-2">
                 <span className="font-bold text-lg tracking-tight text-slate-900 dark:text-white">
                   ChronoTrack
-                </span>
-                <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
-                  Timesheet AI
                 </span>
                 {isTracking && (
                   <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
@@ -178,21 +166,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               Export
             </button>
 
-            {/* Quick Theme Toggle Button */}
-            <button
-              type="button"
-              onClick={onToggleTheme}
-              title={`Current: ${getThemeLabel()} Theme (Click to cycle)`}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition"
-            >
-              {getThemeLabel()}
-            </button>
-
             {/* Settings */}
             <button
               type="button"
               onClick={onOpenSettings}
-              title="Settings & Preferences"
+              title="Settings, Theme & Preferences"
               className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition"
             >
               Settings

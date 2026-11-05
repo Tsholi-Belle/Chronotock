@@ -45,13 +45,6 @@ export const App: React.FC = () => {
     applyTheme(settings.theme || 'dark');
   }, [settings.theme]);
 
-  const handleToggleTheme = useCallback(() => {
-    setSettings((prev) => {
-      const nextTheme: ThemeMode = prev.theme === 'dark' ? 'light' : prev.theme === 'light' ? 'system' : 'dark';
-      return { ...prev, theme: nextTheme };
-    });
-  }, []);
-
   // Live Tracking State
   const [isTracking, setIsTracking] = useState<boolean>(true);
   const [activeAppId, setActiveAppId] = useState<string>(apps[0]?.id || 'app-vscode');
@@ -315,7 +308,6 @@ export const App: React.FC = () => {
         onOpenExport={() => setShowExportModal(true)}
         onOpenGitHubSync={() => setShowGitHubModal(true)}
         onOpenSettings={() => setShowSettingsModal(true)}
-        onToggleTheme={handleToggleTheme}
         settings={settings}
         daemonConnected={daemonConnected}
       />
