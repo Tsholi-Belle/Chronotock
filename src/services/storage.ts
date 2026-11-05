@@ -5,7 +5,9 @@ import {
   ActivityLog, 
   TimesheetEntry, 
   CategorizationRule, 
-  TimesheetSettings 
+  TimesheetSettings,
+  CareerTrackerConfig,
+  IndustryPresetId
 } from '../types';
 
 const STORAGE_KEYS = {
@@ -18,8 +20,103 @@ const STORAGE_KEYS = {
   SETTINGS: 'chronotrack_settings',
 };
 
+export const INDUSTRY_PRESETS: Record<IndustryPresetId, CareerTrackerConfig> = {
+  tech: {
+    industryId: 'tech',
+    industryName: 'Software & Technology',
+    iconName: 'Code',
+    badgeEmoji: '💻',
+    appFieldLabel: 'IDE & Dev Tools',
+    taskFieldLabel: 'Task / Git Branch / File',
+    taskPlaceholder: 'What are you coding? (e.g. App.tsx, PROJ-102, bugfix)',
+    projectFieldLabel: 'Client › Repository',
+    billableLabel: 'Billable',
+    nonBillableLabel: 'Internal / Overhead',
+    quickTags: ['Frontend', 'Backend', 'Code Review', 'Bugfix', 'DevOps', 'Architecture'],
+  },
+  legal: {
+    industryId: 'legal',
+    industryName: 'Legal, Law Firms & Attorneys',
+    iconName: 'Scale',
+    badgeEmoji: '⚖️',
+    appFieldLabel: 'Legal Platform / Tool',
+    taskFieldLabel: 'Matter Activity / Pleading / Discovery',
+    taskPlaceholder: 'Matter activity (e.g. Drafting Motion, Client Deposition, Case Law Research)',
+    projectFieldLabel: 'Client › Matter / Case #',
+    billableLabel: 'Billable (Client)',
+    nonBillableLabel: 'Pro Bono / Admin',
+    quickTags: ['Drafting', 'Legal Research', 'Deposition', 'Client Call', 'Court Filing', 'Due Diligence'],
+  },
+  healthcare: {
+    industryId: 'healthcare',
+    industryName: 'Healthcare, Therapy & Clinical',
+    iconName: 'HeartPulse',
+    badgeEmoji: '🏥',
+    appFieldLabel: 'EHR / Clinical Platform',
+    taskFieldLabel: 'Session / CPT Service / Charting',
+    taskPlaceholder: 'Session / CPT code (e.g. 90834 Psychotherapy, Patient Consultation, Chart Notes)',
+    projectFieldLabel: 'Patient File › Department / Clinic',
+    billableLabel: 'Insurance Billable',
+    nonBillableLabel: 'Clinical Admin',
+    quickTags: ['Consultation', 'Psychotherapy', 'Chart Review', 'Intake Assessment', 'Case Note', 'Telehealth'],
+  },
+  accounting: {
+    industryId: 'accounting',
+    industryName: 'Accounting, Tax & Auditing',
+    iconName: 'Calculator',
+    badgeEmoji: '📊',
+    appFieldLabel: 'Ledger / Tax Software',
+    taskFieldLabel: 'Workstream / Tax Return / Audit Step',
+    taskPlaceholder: 'Workstream (e.g. Q3 Reconciliation, Form 1040, Forensic Audit, Payroll Review)',
+    projectFieldLabel: 'Entity / Client › Fiscal Year / Engagement',
+    billableLabel: 'Billable Hours',
+    nonBillableLabel: 'Firm Overhead',
+    quickTags: ['Tax Preparation', 'Audit Sampling', 'Reconciliation', 'Financial Statement', 'Advisory', 'Compliance'],
+  },
+  creative: {
+    industryId: 'creative',
+    industryName: 'Design, Architecture & Creative',
+    iconName: 'Palette',
+    badgeEmoji: '🎨',
+    appFieldLabel: 'Creative Suite / CAD',
+    taskFieldLabel: 'Asset / Drawing / Deliverable',
+    taskPlaceholder: 'Asset / Drawing (e.g. Homepage Wireframes, Elevation Blueprint, Brand Guidelines)',
+    projectFieldLabel: 'Brand / Client › Campaign / Milestone',
+    billableLabel: 'Billable Scope',
+    nonBillableLabel: 'Revisions / Pitch',
+    quickTags: ['UI/UX Design', '3D Rendering', 'CAD Blueprint', 'Branding', 'Prototype', 'Design System'],
+  },
+  consulting: {
+    industryId: 'consulting',
+    industryName: 'Management & Strategy Consulting',
+    iconName: 'Briefcase',
+    badgeEmoji: '📈',
+    appFieldLabel: 'Advisory / Productivity Tool',
+    taskFieldLabel: 'Deliverable / Workstream / Deck',
+    taskPlaceholder: 'Deliverable (e.g. M&A Strategy Deck, Stakeholder Interview, Market Sizing)',
+    projectFieldLabel: 'Client Account › Workstream',
+    billableLabel: 'Client Billable',
+    nonBillableLabel: 'Business Development',
+    quickTags: ['Slide Deck', 'Financial Modeling', 'Stakeholder Meeting', 'Strategy Roadmap', 'Market Research'],
+  },
+  custom: {
+    industryId: 'custom',
+    industryName: 'Custom Career / Freelance',
+    iconName: 'Sliders',
+    badgeEmoji: '⚙️',
+    appFieldLabel: 'Application / Platform',
+    taskFieldLabel: 'Task & Window Summary',
+    taskPlaceholder: 'What are you working on? (or auto-detected from active window)',
+    projectFieldLabel: 'Client › Project',
+    billableLabel: 'Billable ($)',
+    nonBillableLabel: 'Non-Billable',
+    quickTags: ['Client Work', 'Meeting', 'Research', 'Documentation', 'Admin'],
+  },
+};
+
 export const DEFAULT_SETTINGS: TimesheetSettings = {
   theme: 'dark',
+  careerConfig: INDUSTRY_PRESETS.tech,
   roundingIncrement: 15,
   roundingMethod: 'nearest',
   minimumSessionSeconds: 15,
@@ -559,7 +656,12 @@ export class StorageService {
       return DEFAULT_SETTINGS;
     }
     try {
-      return { ...DEFAULT_SETTINGS, ...JSON.parse(data) };
+      const parsed = JSON.parse(data);
+      return { 
+        ...DEFAULT_SETTINGS, 
+        ...parsed,
+        careerConfig: parsed.careerConfig || DEFAULT_SETTINGS.careerConfig
+      };
     } catch {
       return DEFAULT_SETTINGS;
     }

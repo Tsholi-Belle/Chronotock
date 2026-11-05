@@ -105,8 +105,32 @@ export type RoundingMethod = 'nearest' | 'ceil' | 'floor';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
+export type IndustryPresetId = 
+  | 'tech'
+  | 'legal'
+  | 'healthcare'
+  | 'accounting'
+  | 'creative'
+  | 'consulting'
+  | 'custom';
+
+export interface CareerTrackerConfig {
+  industryId: IndustryPresetId;
+  industryName: string;
+  iconName: string;
+  badgeEmoji: string;
+  appFieldLabel: string;
+  taskFieldLabel: string;
+  taskPlaceholder: string;
+  projectFieldLabel: string;
+  billableLabel: string;
+  nonBillableLabel: string;
+  quickTags: string[];
+}
+
 export interface TimesheetSettings {
   theme: ThemeMode;
+  careerConfig?: CareerTrackerConfig;
   roundingIncrement: RoundingIncrement;
   roundingMethod: RoundingMethod;
   minimumSessionSeconds: number; // e.g. 10s

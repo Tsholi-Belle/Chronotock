@@ -8,7 +8,8 @@ import {
   TimesheetEntry, 
   CategorizationRule, 
   TimesheetSettings,
-  ThemeMode
+  ThemeMode,
+  CareerTrackerConfig
 } from './types';
 import { StorageService, formatDateKey, generateSeedActivityLogs } from './services/storage';
 import { ConsolidationEngine } from './services/consolidation';
@@ -24,6 +25,7 @@ import { ManualEntryModal } from './components/ManualEntryModal';
 import { ExportModal } from './components/ExportModal';
 import { SettingsModal } from './components/SettingsModal';
 import { GitHubSyncModal } from './components/GitHubSyncModal';
+import { CareerCustomizerModal } from './components/CareerCustomizerModal';
 
 export const App: React.FC = () => {
   // App State
@@ -62,6 +64,7 @@ export const App: React.FC = () => {
   const [showManualModal, setShowManualModal] = useState<boolean>(false);
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [showGitHubModal, setShowGitHubModal] = useState<boolean>(false);
+  const [showCareerModal, setShowCareerModal] = useState<boolean>(false);
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
   const [editingEntry, setEditingEntry] = useState<TimesheetEntry | null>(null);
 
@@ -288,6 +291,14 @@ export const App: React.FC = () => {
     setLogs((prev) => [...prev, ...newLogs]);
   };
 
+  const handleSaveCareerConfig = (newConfig: CareerTrackerConfig) => {
+    setSettings((prev) => {
+      const updated: TimesheetSettings = { ...prev, careerConfig: newConfig };
+      StorageService.saveSettings(updated);
+      return updated;
+    });
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col selection:bg-brand-500/30 selection:text-brand-700 dark:selection:text-brand-200 transition-colors duration-200">
       {/* Top Navbar */}
@@ -326,6 +337,8 @@ export const App: React.FC = () => {
         setIsBillable={setIsBillable}
         onLogSession={handleLogSession}
         todayDurationMinutes={todayDurationMinutes}
+        careerConfig={settings.careerConfig}
+        onOpenCareerModal={() => setShowCareerModal(true)}
       />
 
       {/* Main View Body */}
@@ -427,12 +440,20 @@ export const App: React.FC = () => {
         onImportEntries={handleImportGitHubEntries}
       />
 
+      <CareerCustomizerModal
+        isOpen={showCareerModal}
+        onClose={() => setShowCareerModal(false)}
+        currentConfig={settings.careerConfig}
+        onSaveConfig={handleSaveCareerConfig}
+      />
+
       <SettingsModal
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
         settings={settings}
         onSaveSettings={(newSettings) => setSettings(newSettings)}
         onResetData={handleResetData}
+        onOpenCareerCustomizer={() => setShowCareerModal(true)}
       />
     </div>
   );

@@ -14,10 +14,12 @@ import {
   DollarSign,
   Sun,
   Moon,
-  Laptop
+  Laptop,
+  Briefcase,
+  Sliders
 } from 'lucide-react';
-import { TimesheetSettings, RoundingIncrement, RoundingMethod, ThemeMode } from '../types';
-import { StorageService } from '../services/storage';
+import { TimesheetSettings, RoundingIncrement, RoundingMethod, ThemeMode, IndustryPresetId } from '../types';
+import { StorageService, INDUSTRY_PRESETS } from '../services/storage';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -25,6 +27,7 @@ interface SettingsModalProps {
   settings: TimesheetSettings;
   onSaveSettings: (settings: TimesheetSettings) => void;
   onResetData: () => void;
+  onOpenCareerCustomizer?: () => void;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -33,6 +36,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   settings,
   onSaveSettings,
   onResetData,
+  onOpenCareerCustomizer,
 }) => {
   const [formData, setFormData] = useState<TimesheetSettings>(settings);
   const [copiedCmd, setCopiedCmd] = useState(false);
@@ -145,6 +149,63 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 );
               })}
             </div>
+          </div>
+
+          {/* Career & Industry Tracker Profile */}
+          <div className="p-4 bg-slate-50 dark:bg-slate-950/80 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-2">
+                <Briefcase className="w-4 h-4 text-brand-600 dark:text-brand-400" />
+                <span>Career & Industry Tracker Profile</span>
+              </h4>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
+                {formData.careerConfig?.badgeEmoji || '💻'} {formData.careerConfig?.industryName || 'Software & Tech'}
+              </span>
+            </div>
+
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              Select your profession to instantly adapt field labels, input placeholders, and billable options across the live tracker bar.
+            </p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {(['tech', 'legal', 'healthcare', 'accounting', 'creative', 'consulting'] as IndustryPresetId[]).map((id) => {
+                const preset = INDUSTRY_PRESETS[id];
+                const isSelected = (formData.careerConfig?.industryId || 'tech') === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, careerConfig: preset })}
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border text-left text-xs transition ${
+                      isSelected
+                        ? 'bg-brand-50 dark:bg-brand-950/50 border-brand-500 ring-2 ring-brand-500/20 text-brand-700 dark:text-brand-300 font-semibold'
+                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
+                    }`}
+                  >
+                    <span className="text-base">{preset.badgeEmoji}</span>
+                    <div className="truncate">
+                      <div className="leading-tight">{preset.industryName.split(',')[0]}</div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {onOpenCareerCustomizer && (
+              <div className="pt-1 flex items-center justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    onOpenCareerCustomizer();
+                  }}
+                  className="text-xs text-brand-600 dark:text-brand-400 hover:underline font-semibold flex items-center gap-1"
+                >
+                  <Sliders className="w-3.5 h-3.5" />
+                  <span>Customize Every Field & Placeholder...</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* User Profile */}
